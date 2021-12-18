@@ -1,13 +1,15 @@
 package com;
 
+import com.bloonsTd.Map;
 import com.geneticAlgorithem.Population;
 
-import processing.core.PApplet;
+import processing.core.*;
 
 public class Main extends PApplet
 {
 
 	private Population population;
+	private Map map;
 
 	@Override
 	public void settings()
@@ -21,18 +23,38 @@ public class Main extends PApplet
 		System.out.println("start program");
 		Global.setPro(this);
 
+		// init population
 		this.setPopulation(new Population());
+		// init map
+		int[] screenSize = { this.width, this.height };
+		this.setMap(new Map(screenSize));
 
+		
 		for (int i = 0; i < 200; i++)
 		{
 			this.population.advanceGeneration();
 		}
+		this.getMap().renderMapToBuffer();
 	}
 
 	@Override
 	public void draw()
 	{
-		exit();
+		// exit();
+		this.update();
+		this.render();
+	}
+
+	private void update()
+	{
+		this.getMap().update();
+	}
+
+	private void render()
+	{
+		this.getMap().renderMapToBuffer();
+		this.image(this.getMap().getMapBuffer(), 0, 0);
+
 	}
 
 	public static void main(String[] args)
@@ -48,6 +70,16 @@ public class Main extends PApplet
 	public void setPopulation(Population population)
 	{
 		this.population = population;
+	}
+
+	public Map getMap()
+	{
+		return map;
+	}
+
+	public void setMap(Map map)
+	{
+		this.map = map;
 	}
 
 }
