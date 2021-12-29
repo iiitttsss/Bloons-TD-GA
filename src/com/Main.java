@@ -22,6 +22,7 @@ public class Main extends PApplet
 	{
 		System.out.println("start program");
 		Global.setPro(this);
+		this.frameRate(30);
 
 		// init population
 		this.setPopulation(new Population());
@@ -30,11 +31,11 @@ public class Main extends PApplet
 		this.setMap(new Map(screenSize));
 
 		
-		for (int i = 0; i < 200; i++)
-		{
-			this.population.advanceGeneration();
-		}
-		this.getMap().renderMapToBuffer();
+//		for (int i = 0; i < 200; i++)
+//		{
+//			this.population.advanceGeneration();
+//		}
+//		this.getMap().renderMapToBuffer();
 	}
 
 	@Override

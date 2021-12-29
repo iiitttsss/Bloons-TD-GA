@@ -22,6 +22,18 @@ public class Balloon
 		this.setType(type);
 	}
 
+	public float calulateStrength()
+	{
+		// TODO
+		return 0;
+	}
+
+	public float getSpeed()
+	{
+		float speed = BalloonsTypesDictionary.typeDict.get(this.getType()).getSpeed();
+		return speed;
+	}
+
 	public int getSegmentNumber()
 	{
 		return segmentNumber;

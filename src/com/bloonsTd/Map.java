@@ -52,13 +52,8 @@ public class Map
 		// path
 		this.setPathWidth(40);
 		int[][] path = {
-				{100, 100},
-				{ 50, 400 }, //
-				{ 800, 300 }, //
-				{ 500, 800 }, //
-				{ 700, 800 }, //
-				{ 700, 1000 }, //
-				{ 900, 1000 } };
+				{ 100, 100 }, { 50, 400 }, { 800, 300 }, { 500, 800 }, { 700, 800 }, { 700, 1000 }, { 900, 1000 },
+				{ 900, 700 }, { 100, 550 } };
 		this.setPathPoints(path);
 		this.setSegmentData(this.createSegmentData(path));
 		this.setDistanceFromClosestPath(this.calculateDistanceFromClosestPathArray(graphicsSize[0], graphicsSize[1]));
@@ -77,13 +72,14 @@ public class Map
 
 		TowersTypesDictionary.initTypeDict();
 		this.setTowers(new ArrayList<Tower>());
-		// this.getTowers().add(new Tower(0, 1100, TowersTypesDictionary.DART_MONKEY));
-		for (int x = 0; x < 1200; x += 100)
-		{
+//		for (int x = 0; x < 1200; x += 100)
+//		{
+//
+//			this.placeTower(x, 500, TowersTypesDictionary.DART_MONKEY);
+//			this.placeTower(x, 1000, TowersTypesDictionary.DART_MONKEY);
+//		}
+		this.placeTower(500, 500, TowersTypesDictionary.DART_MONKEY, this.getPathPoints());
 
-			this.placeTower(x, 500, TowersTypesDictionary.DART_MONKEY);
-			this.placeTower(x, 1000, TowersTypesDictionary.DART_MONKEY);
-		}
 
 		// render
 		this.setMapBuffer(Global.getPro().createGraphics(graphicsSize[0], graphicsSize[1]));
@@ -193,17 +189,30 @@ public class Map
 		this.renderBloons(md);
 		this.renderTowers(md);
 
+		md.text(Global.getPro().frameRate, 30, 15);
+		md.text(Global.getPro().mouseX, 30, 30);
+		md.text(Global.getPro().mouseY, 30, 45);
+
 		md.endDraw();
 	}
 
 	private void renderTowers(PGraphics md)
 	{
+		md.pushStyle();
 		for (Tower tower : this.getTowers())
 		{
 			md.fill(TowersTypesDictionary.typeDict.get(tower.getType()).getColor());
 			float radius = TowersTypesDictionary.typeDict.get(tower.getType()).getRadius();
 			md.circle(tower.getxPos(), tower.getyPos(), 2 * radius);
+			md.noFill();
+			md.circle(tower.getxPos(), tower.getyPos(), 2 * tower.getRange());
+
+			if (tower.getLastTarget() != null)
+			{
+				md.circle(tower.getLastTarget().getxPos(), tower.getLastTarget().getyPos(), 50);
+			}
 		}
+		md.popStyle();
 	}
 
 	private void renderBackground(PGraphics md)
@@ -251,7 +260,7 @@ public class Map
 			int segmentNumber = balloon.getSegmentNumber();
 			
 			float[] segmentData = this.getSegmentData()[segmentNumber];
-			float percentIncrease = BalloonsTypesDictionary.typeDict.get(balloon.getType()).getSpeed() / segmentData[0];
+			float percentIncrease = balloon.getSpeed() / segmentData[0];
 
 			balloon.setPercentOfSegment(balloon.getPercentOfSegment() + percentIncrease);
 			balloon.setxPos(balloon.getxPos() + percentIncrease * segmentData[1]);
@@ -292,9 +301,8 @@ public class Map
 		for (int i = 0; i < this.getPathPoints().length; i++)
 		{
 			int[] vertex = this.getPathPoints()[i];
-			// md.circle(vertex[0], vertex[1], 50);
 
-			md.push();
+			md.pushStyle();
 			md.strokeWeight(this.getPathWidth() * 2);
 			md.stroke(200);
 			if (i != this.getPathPoints().length - 1)
@@ -302,11 +310,15 @@ public class Map
 				int[] nextVertex = this.getPathPoints()[i + 1];
 				md.line(vertex[0], vertex[1], nextVertex[0], nextVertex[1]);
 			}
-			md.pop();
+			md.strokeWeight(3);
+
+			md.circle(vertex[0], vertex[1], 10);
+
+			md.popStyle();
 		}
 	}
 
-	private void placeTower(int x, int y, int towerType)
+	private void placeTower(int x, int y, int towerType, int[][] pathPoints)
 	{
 		// TODO
 		// check if the place is good
@@ -316,7 +328,15 @@ public class Map
 		if (this.getDistanceFromClosestPath()[y][x] >= TowersTypesDictionary.typeDict.get(towerType).getRadius()
 				+ this.getPathWidth())
 		{
-			this.getTowers().add(new Tower(x, y, towerType));
+			this.getTowers().add(new Tower(x, y, towerType, pathPoints));
+		}
+	}
+
+	private void updateTowers()
+	{
+		for (Tower tower : this.getTowers())
+		{
+			tower.update(1000 / 30, balloons);
 		}
 	}
 
@@ -327,6 +347,7 @@ public class Map
 		// move bloons
 		this.moveBalloons();
 		// hit bloons
+		this.updateTowers();
 	}
 
 	public PGraphics getMapBuffer()
