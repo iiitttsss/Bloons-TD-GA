@@ -11,6 +11,7 @@ public class Main extends PApplet
 	private Population population;
 	private Map map;
 
+	public static int setFrameRate = 60;
 	// used for deltaTime calculations
 	private int lastTime = 0;
 
@@ -25,7 +26,7 @@ public class Main extends PApplet
 	{
 		System.out.println("start program");
 		Global.setPro(this);
-		this.frameRate(30);
+		this.frameRate(setFrameRate);
 
 		// init population
 		this.setPopulation(new Population());

@@ -2,7 +2,7 @@ package com.bloonsTd.bullets;
 
 import java.util.ArrayList;
 
-import com.bloonsTd.balloons.Balloon;
+import com.bloonsTd.balloons.BalloonsManager;
 
 public class BulletsManager
 {
@@ -13,13 +13,13 @@ public class BulletsManager
 		this.setBullets(new ArrayList<Bullet>());
 	}
 
-	public void update(ArrayList<Balloon> allBalloons)
+	public void update(float deltaTime, BalloonsManager allBalloons)
 	{
 		for (Bullet b : this.getBullets())
 		{
 			if (b.isActive())
 			{
-				b.update(allBalloons);
+				b.update(deltaTime, allBalloons);
 			}
 		}
 	}
@@ -33,7 +33,7 @@ public class BulletsManager
 	 * @param xVel
 	 * @param yVel
 	 */
-	public void addBullet(float xPos, float yPos, float xVel, float yVel)
+	public void addBullet(float xPos, float yPos, float xVel, float yVel, float lifeTime)
 	{
 		Bullet currentBullet = null;
 		boolean foundBullet = false;
@@ -56,7 +56,7 @@ public class BulletsManager
 			this.getBullets().add(currentBullet);
 		}
 
-		currentBullet.init(xPos, yPos, xVel, yVel);
+		currentBullet.init(xPos, yPos, xVel, yVel, lifeTime);
 	}
 
 	public ArrayList<Bullet> getBullets()

@@ -3,6 +3,7 @@ package com.bloonsTd.towers;
 import java.util.ArrayList;
 
 import com.bloonsTd.balloons.Balloon;
+import com.bloonsTd.bullets.BulletsManager;
 import com.bloonsTd.towers.smartRange.SegmentPercent;
 import com.util.MathUtils;
 
@@ -11,6 +12,8 @@ public class Tower
 	// the size of the tower is determined by the tower type
 	private float xPos;
 	private float yPos;
+
+	private float coolDownRemained;
 
 	private int type;
 
@@ -42,7 +45,7 @@ public class Tower
 	 */
 	private boolean canShoot()
 	{
-		return true;
+		return this.getCoolDownRemained() <= 0;
 	}
 
 	/**
@@ -50,9 +53,36 @@ public class Tower
 	 * 
 	 * @param targetBalloon
 	 */
-	private void shoot(Balloon targetBalloon)
+	private void shoot(BulletsManager bulletsManager, Balloon targetBalloon)
 	{
 		// TODO
+		float dx = (targetBalloon.getxPos() - this.getxPos());
+		float dy = (targetBalloon.getyPos() - this.getyPos());
+		float magnitude = MathUtils.distance(0, 0, dx, dy);
+		float speed = this.getBulletSpeed();
+
+		bulletsManager.addBullet(this.getxPos(), this.getyPos(), dx * speed / magnitude, dy * speed / magnitude,
+				this.getBulletLifeTime());
+
+		this.setCoolDownRemained(this.getTowerCoolDown());
+	}
+
+	private float getTowerCoolDown()
+	{
+		// should return based on tower type (from a dictionary)
+		return 500;
+	}
+
+	private float getBulletLifeTime()
+	{
+		// should return based on tower type (from a dictionary)
+		return 1000;
+	}
+
+	private float getBulletSpeed()
+	{
+		// should return based on tower type (from a dictionary)
+		return 20;
 	}
 
 	/**
@@ -60,13 +90,17 @@ public class Tower
 	 * 
 	 * @param balloons  - the list of all the balloons
 	 */
-	public void update(ArrayList<Balloon> balloons)
+	public void update(float deltaTime, BulletsManager bulletsManager, ArrayList<Balloon> balloons)
 	{
 		// may nedd to change if in while
+		this.coolDownRemained -= deltaTime;
 		if (this.canShoot())
 		{
 			Balloon targetBalloon = this.chooseTarget(balloons);
-			this.shoot(targetBalloon);
+			if (targetBalloon != null)
+			{
+				this.shoot(bulletsManager, targetBalloon);
+			}
 		}
 	}
 
@@ -323,5 +357,15 @@ public class Tower
 	public void setLastTarget(Balloon lastTarget)
 	{
 		this.lastTarget = lastTarget;
+	}
+
+	public float getCoolDownRemained()
+	{
+		return coolDownRemained;
+	}
+
+	public void setCoolDownRemained(float coolDownRemained)
+	{
+		this.coolDownRemained = coolDownRemained;
 	}
 }

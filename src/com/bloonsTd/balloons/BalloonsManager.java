@@ -11,9 +11,9 @@ public class BalloonsManager
 		this.setBalloons(new ArrayList<Balloon>());
 	}
 
-	public void update(float[][] allSegmentData)
+	public void update(float deltaTime, float[][] allSegmentData)
 	{
-		this.moveBalloons(allSegmentData);
+		this.moveBalloons(deltaTime, allSegmentData);
 	}
 
 	/**
@@ -31,7 +31,7 @@ public class BalloonsManager
 	 * 
 	 * @param allSegmentData
 	 */
-	private void moveBalloons(float[][] allSegmentData)
+	private void moveBalloons(float deltaTime, float[][] allSegmentData)
 	{
 		for (Balloon balloon : this.getBalloons())
 		{
@@ -44,7 +44,8 @@ public class BalloonsManager
 				int segmentNumber = balloon.getSegmentNumber();
 
 				float[] segmentData = allSegmentData[segmentNumber];
-				float percentIncrease = balloon.getSpeed() / segmentData[0];
+				float percentIncrease = deltaTime * Balloon.BALLOONS_SPEED_MULTIPLIER * balloon.getSpeed()
+						/ segmentData[0];
 
 				balloon.setPercentOfSegment(balloon.getPercentOfSegment() + percentIncrease);
 				balloon.setxPos(balloon.getxPos() + percentIncrease * segmentData[1]);
@@ -78,7 +79,7 @@ public class BalloonsManager
 	 * @param initYPos
 	 * @param type
 	 */
-	public void addBalloon(float initXPos, float initYPos, int type)
+	public void addBalloon(int type, float initXPos, float initYPos, int segmentNumber, float percentOfSegment)
 	{
 		Balloon currentBalloon = null;
 		boolean foundBalloon = false;
@@ -102,7 +103,7 @@ public class BalloonsManager
 			this.getBalloons().add(currentBalloon);
 		}
 
-		currentBalloon.init(initXPos, initYPos, type);
+		currentBalloon.init(type, initXPos, initYPos, segmentNumber, percentOfSegment);
 	}
 
 	public ArrayList<Balloon> getBalloons()

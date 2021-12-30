@@ -7,6 +7,7 @@ package com.bloonsTd;
 import java.util.ArrayList;
 
 import com.Global;
+import com.Main;
 import com.bloonsTd.balloons.Balloon;
 import com.bloonsTd.balloons.BalloonsManager;
 import com.bloonsTd.balloons.BalloonsTypesDictionary;
@@ -50,6 +51,8 @@ public class Map
 	// rendering
 	private PGraphics mapBuffer;
 
+	private float deltaTime = 1000f / Main.setFrameRate;
+
 	public Map(int[] graphicsSize)
 	{
 		// TODO
@@ -65,14 +68,15 @@ public class Map
 		BalloonsTypesDictionary.initTypeDict();
 		this.setBalloons(new BalloonsManager());
 
-		this.getBalloons().addBalloon(100, 100, BalloonsTypesDictionary.RED_BALLOON);
-		this.getBalloons().addBalloon(100, 100, BalloonsTypesDictionary.BLUE_BALLOON);
+		this.getBalloons().addBalloon(BalloonsTypesDictionary.RED_BALLOON, 100, 100, 0, 0);
+		this.getBalloons().addBalloon(BalloonsTypesDictionary.BLUE_BALLOON, 100, 100, 0, 0);
 
-		this.getBalloons().addBalloon(100, 100, BalloonsTypesDictionary.GREEN_BALLOON);
-		this.getBalloons().addBalloon(100, 100, BalloonsTypesDictionary.YELLOW_BALLOON);
-		this.getBalloons().addBalloon(100, 100, BalloonsTypesDictionary.PINK_BALLOON);
-		this.getBalloons().addBalloon(100, 100, BalloonsTypesDictionary.BLACK_BALLOON);
-		this.getBalloons().addBalloon(100, 100, BalloonsTypesDictionary.WHITE_BALLOON);
+		this.getBalloons().addBalloon(BalloonsTypesDictionary.GREEN_BALLOON, 100, 100, 0, 0);
+		this.getBalloons().addBalloon(BalloonsTypesDictionary.YELLOW_BALLOON, 100, 100, 0, 0);
+		this.getBalloons().addBalloon(BalloonsTypesDictionary.PINK_BALLOON, 100, 100, 0, 0);
+		this.getBalloons().addBalloon(BalloonsTypesDictionary.BLACK_BALLOON, 100, 100, 0, 0);
+		this.getBalloons().addBalloon(BalloonsTypesDictionary.WHITE_BALLOON, 100, 100, 0, 0);
+
 
 		TowersTypesDictionary.initTypeDict();
 		this.setTowers(new ArrayList<Tower>());
@@ -83,12 +87,13 @@ public class Map
 //			this.placeTower(x, 1000, TowersTypesDictionary.DART_MONKEY);
 //		}
 		this.placeTower(500, 500, TowersTypesDictionary.DART_MONKEY, this.getPathPoints());
+		this.placeTower(250, 200, TowersTypesDictionary.DART_MONKEY, this.getPathPoints());
 
 		this.setBullets(new BulletsManager());
-		for (int i = 0; i < 100; i++)
-		{
-			this.getBullets().addBullet(500, 500, (float) Math.random() * 2 - 1, (float) Math.random() * 2 - 1);
-		}
+//		for (int i = 0; i < 100; i++)
+//		{
+//			this.getBullets().addBullet(500, 500, (float) Math.random() * 2 - 1, (float) Math.random() * 2 - 1);
+//		}
 
 		// render
 		this.setMapBuffer(Global.getPro().createGraphics(graphicsSize[0], graphicsSize[1]));
@@ -231,7 +236,7 @@ public class Map
 			md.noFill();
 			md.circle(tower.getxPos(), tower.getyPos(), 2 * tower.getRange());
 
-			if (tower.getLastTarget() != null)
+			if (tower.getLastTarget() != null && tower.getLastTarget().isActive())
 			{
 				md.circle(tower.getLastTarget().getxPos(), tower.getLastTarget().getyPos(), 50);
 			}
@@ -318,13 +323,13 @@ public class Map
 	{
 		for (Tower tower : this.getTowers())
 		{
-			tower.update(this.getBalloons().getBalloons());
+			tower.update(deltaTime, this.getBullets(), this.getBalloons().getBalloons());
 		}
 	}
 
 	private void updateBullets()
 	{
-		this.getBullets().update(this.getBalloons().getBalloons());
+		this.getBullets().update(this.getDeltaTime(), this.getBalloons());
 	}
 
 	public void update()
@@ -340,7 +345,7 @@ public class Map
 
 	private void updateBalloons()
 	{
-		this.getBalloons().update(this.getSegmentData());
+		this.getBalloons().update(this.getDeltaTime(), this.getSegmentData());
 	}
 
 	public PGraphics getMapBuffer()
@@ -421,6 +426,16 @@ public class Map
 	public void setBullets(BulletsManager bullets)
 	{
 		this.bullets = bullets;
+	}
+
+	public float getDeltaTime()
+	{
+		return deltaTime;
+	}
+
+	public void setDeltaTime(float deltaTime)
+	{
+		this.deltaTime = deltaTime;
 	}
 
 }

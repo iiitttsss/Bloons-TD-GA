@@ -7,6 +7,7 @@ public class Balloon
 	private boolean isActive; // true if the balloon need to be updated and rendered
 	private int id; // each ballons have a unique number (used by the bullets so they will not hit
 					// the balloon more than once)
+	public static final float BALLOONS_SPEED_MULTIPLIER = 0.04f;
 
 	private float xPos;
 	private float yPos;
@@ -24,18 +25,20 @@ public class Balloon
 	{
 	}
 
-	public void init(float initXPos, float initYPos, int type)
+	public void init(int type, float initXPos, float initYPos,  int segmentNumber, float percentOfSegment)
 	{
 		this.setActive(true);
+		this.setType(type);
 
 		this.setxPos(initXPos);
 		this.setyPos(initYPos);
-		this.setType(type);
+		this.setSegmentNumber(segmentNumber);
+		this.setPercentOfSegment(percentOfSegment);
 	}
 
 	public float getRadius()
 	{
-		return 10;
+		return 17;
 	}
 
 	/**
@@ -43,16 +46,37 @@ public class Balloon
 	 * 
 	 * @param bullet - the bullet the balloon was hit by
 	 */
-	public void hit(Bullet bullet)
+	public void hit(Bullet bullet, BalloonsManager balloonsManager)
 	{
 		// TODO Auto-generated method stub
-		this.setActive(false);
+		switch(this.getType())
+		{
+			case BalloonsTypesDictionary.RED_BALLOON:
+				this.setActive(false);
+				break;
+			case BalloonsTypesDictionary.BLUE_BALLOON:
+			case BalloonsTypesDictionary.GREEN_BALLOON:
+			case BalloonsTypesDictionary.YELLOW_BALLOON:
+			case BalloonsTypesDictionary.PINK_BALLOON:
+				this.type--;
+				break;
+			case BalloonsTypesDictionary.BLACK_BALLOON:
+			case BalloonsTypesDictionary.WHITE_BALLOON:
+				this.setType(BalloonsTypesDictionary.PINK_BALLOON);
+				balloonsManager.addBalloon(type, xPos, yPos, segmentNumber, percentOfSegment);
+				break;
+
+		}
+
 	}
 
+	/**
+	 * 
+	 * @return - how strong this balloon is
+	 */
 	public float calulateStrength()
 	{
-		// TODO
-		return 1;
+		return this.getType();
 	}
 
 	public float getSpeed()

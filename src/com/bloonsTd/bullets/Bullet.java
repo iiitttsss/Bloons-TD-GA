@@ -3,6 +3,7 @@ package com.bloonsTd.bullets;
 import java.util.ArrayList;
 
 import com.bloonsTd.balloons.Balloon;
+import com.bloonsTd.balloons.BalloonsManager;
 import com.util.MathUtils;
 
 public class Bullet
@@ -15,6 +16,7 @@ public class Bullet
 	private float yVel;
 
 	private int pierceRemained;
+	private float lifeTimeRemained;
 
 	private ArrayList<Integer> balloonsClearList;// list of ballons IDs that the bullet cannot hit
 
@@ -31,7 +33,7 @@ public class Bullet
 	 * @param xVel
 	 * @param yVel
 	 */
-	public void init(float xPos, float yPos, float xVel, float yVel)
+	public void init(float xPos, float yPos, float xVel, float yVel, float lifeTime)
 	{
 		this.setActive(true);
 
@@ -41,14 +43,27 @@ public class Bullet
 		this.setyVel(yVel);
 
 		this.setPierceRemained(1);
+		this.setLifeTimeRemained(lifeTime);
 
 		this.getBalloonsClearList().clear();
 	}
 
-	public void update(ArrayList<Balloon> allBalloons)
+
+	public void update(float deltaTime, BalloonsManager allBalloons)
 	{
 		this.move();
 		this.collisionWithBalloons(allBalloons);
+		this.despawn(deltaTime);
+	}
+
+	private void despawn(float deltaTime)
+	{
+		this.lifeTimeRemained -= deltaTime;
+
+		if (this.getLifeTimeRemained() <= 0)
+		{
+			this.setActive(false);
+		}
 	}
 
 	/**
@@ -72,9 +87,9 @@ public class Bullet
 	 * 
 	 * @param allBalloons - an array-list of all the balloons
 	 */
-	private void collisionWithBalloons(ArrayList<Balloon> allBalloons)
+	private void collisionWithBalloons(BalloonsManager balloonsManager)
 	{
-		for (Balloon balloon : allBalloons)
+		for (Balloon balloon : balloonsManager.getBalloons())
 		{
 			if (balloon.isActive())
 			{
@@ -87,7 +102,7 @@ public class Bullet
 
 					if (disSq < maxDisSq)
 					{
-						balloon.hit(this);
+						balloon.hit(this, balloonsManager);
 						this.hit(balloon);
 						// System.out.println("hit");
 					}
@@ -196,5 +211,15 @@ public class Bullet
 	public void decrementPierceRemained()
 	{
 		this.pierceRemained--;
+	}
+
+	public float getLifeTimeRemained()
+	{
+		return lifeTimeRemained;
+	}
+
+	public void setLifeTimeRemained(float lifeTimeRemained)
+	{
+		this.lifeTimeRemained = lifeTimeRemained;
 	}
 }
