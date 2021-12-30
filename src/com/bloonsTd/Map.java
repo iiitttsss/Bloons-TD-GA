@@ -8,7 +8,10 @@ import java.util.ArrayList;
 
 import com.Global;
 import com.bloonsTd.balloons.Balloon;
+import com.bloonsTd.balloons.BalloonsManager;
 import com.bloonsTd.balloons.BalloonsTypesDictionary;
+import com.bloonsTd.bullets.Bullet;
+import com.bloonsTd.bullets.BulletsManager;
 import com.bloonsTd.towers.Tower;
 import com.bloonsTd.towers.TowersTypesDictionary;
 
@@ -38,10 +41,11 @@ public class Map
 	// this array store the distance to the closest path
 	private float[][] distanceFromClosestPath;
 
-	private ArrayList<Balloon> balloons;
-
+	private BalloonsManager balloons;
 
 	private ArrayList<Tower> towers;
+
+	private BulletsManager bullets;
 
 	// rendering
 	private PGraphics mapBuffer;
@@ -59,16 +63,16 @@ public class Map
 		this.setDistanceFromClosestPath(this.calculateDistanceFromClosestPathArray(graphicsSize[0], graphicsSize[1]));
 		// balloons
 		BalloonsTypesDictionary.initTypeDict();
-		this.setBalloons(new ArrayList<Balloon>());
+		this.setBalloons(new BalloonsManager());
 
-		this.getBalloons().add(new Balloon(100, 100, BalloonsTypesDictionary.RED_BALLOON));
-		this.getBalloons().add(new Balloon(100, 100, BalloonsTypesDictionary.BLUE_BALLOON));
+		this.getBalloons().addBalloon(100, 100, BalloonsTypesDictionary.RED_BALLOON);
+		this.getBalloons().addBalloon(100, 100, BalloonsTypesDictionary.BLUE_BALLOON);
 
-		this.getBalloons().add(new Balloon(100, 100, BalloonsTypesDictionary.GREEN_BALLOON));
-		this.getBalloons().add(new Balloon(100, 100, BalloonsTypesDictionary.YELLOW_BALLOON));
-		this.getBalloons().add(new Balloon(100, 100, BalloonsTypesDictionary.PINK_BALLOON));
-		this.getBalloons().add(new Balloon(100, 100, BalloonsTypesDictionary.BLACK_BALLOON));
-		this.getBalloons().add(new Balloon(100, 100, BalloonsTypesDictionary.WHITE_BALLOON));
+		this.getBalloons().addBalloon(100, 100, BalloonsTypesDictionary.GREEN_BALLOON);
+		this.getBalloons().addBalloon(100, 100, BalloonsTypesDictionary.YELLOW_BALLOON);
+		this.getBalloons().addBalloon(100, 100, BalloonsTypesDictionary.PINK_BALLOON);
+		this.getBalloons().addBalloon(100, 100, BalloonsTypesDictionary.BLACK_BALLOON);
+		this.getBalloons().addBalloon(100, 100, BalloonsTypesDictionary.WHITE_BALLOON);
 
 		TowersTypesDictionary.initTypeDict();
 		this.setTowers(new ArrayList<Tower>());
@@ -80,6 +84,11 @@ public class Map
 //		}
 		this.placeTower(500, 500, TowersTypesDictionary.DART_MONKEY, this.getPathPoints());
 
+		this.setBullets(new BulletsManager());
+		for (int i = 0; i < 100; i++)
+		{
+			this.getBullets().addBullet(500, 500, (float) Math.random() * 2 - 1, (float) Math.random() * 2 - 1);
+		}
 
 		// render
 		this.setMapBuffer(Global.getPro().createGraphics(graphicsSize[0], graphicsSize[1]));
@@ -188,12 +197,27 @@ public class Map
 		this.renderPaths(md);
 		this.renderBloons(md);
 		this.renderTowers(md);
+		this.renderBullets(md);
 
 		md.text(Global.getPro().frameRate, 30, 15);
 		md.text(Global.getPro().mouseX, 30, 30);
 		md.text(Global.getPro().mouseY, 30, 45);
 
 		md.endDraw();
+	}
+
+	private void renderBullets(PGraphics md)
+	{
+		md.pushStyle();
+		for (Bullet bullet : this.getBullets().getBullets())
+		{
+			if (bullet.isActive())
+			{
+				md.circle(bullet.getxPos(), bullet.getyPos(), bullet.getRadius() * 2);
+			}
+		}
+		md.popStyle();
+
 	}
 
 	private void renderTowers(PGraphics md)
@@ -239,59 +263,17 @@ public class Map
 
 	}
 
-	/**
-	 * 
-	 * @param balloon - the balloon
-	 * @return - return true if the balloons did not finish the course
-	 */
-	private boolean isBalloonOnPath(Balloon balloon)
-	{
-		return balloon.getSegmentNumber() < this.getSegmentData().length;
-	}
-
-	private void moveBalloons()
-	{
-		for (Balloon balloon : this.getBalloons())
-		{
-			if (!this.isBalloonOnPath(balloon))
-			{
-				continue;
-			}
-			int segmentNumber = balloon.getSegmentNumber();
-			
-			float[] segmentData = this.getSegmentData()[segmentNumber];
-			float percentIncrease = balloon.getSpeed() / segmentData[0];
-
-			balloon.setPercentOfSegment(balloon.getPercentOfSegment() + percentIncrease);
-			balloon.setxPos(balloon.getxPos() + percentIncrease * segmentData[1]);
-			balloon.setyPos(balloon.getyPos() + percentIncrease * segmentData[2]);
-
-			// move to the next segment
-			if (balloon.getPercentOfSegment() >= 1f)
-			{
-				balloon.setSegmentNumber(balloon.getSegmentNumber() + 1);
-
-				// if the segment exist
-				if (this.isBalloonOnPath(balloon))
-				{
-					float[] newSegmentData = this.getSegmentData()[balloon.getSegmentNumber()];
-
-					float startPercent = (balloon.getPercentOfSegment() - 1f) * segmentData[0] / newSegmentData[0];
-					balloon.setPercentOfSegment(startPercent);
-					balloon.setxPos(balloon.getxPos() + startPercent * newSegmentData[1]);
-					balloon.setyPos(balloon.getyPos() + startPercent * newSegmentData[2]);
-				}
-			}
-		}
-	}
 
 	private void renderBloons(PGraphics md)
 	{
 		md.push();
-		for (Balloon balloon : this.getBalloons())
+		for (Balloon balloon : this.getBalloons().getBalloons())
 		{
-			md.fill(BalloonsTypesDictionary.typeDict.get(balloon.getType()).getColor());
-			md.circle(balloon.getxPos(), balloon.getyPos(), 20);
+			if (balloon.isActive())
+			{
+				md.fill(BalloonsTypesDictionary.typeDict.get(balloon.getType()).getColor());
+				md.circle(balloon.getxPos(), balloon.getyPos(), balloon.getRadius() * 2);
+			}
 		}
 		md.pop();
 	}
@@ -336,8 +318,13 @@ public class Map
 	{
 		for (Tower tower : this.getTowers())
 		{
-			tower.update(1000 / 30, balloons);
+			tower.update(this.getBalloons().getBalloons());
 		}
+	}
+
+	private void updateBullets()
+	{
+		this.getBullets().update(this.getBalloons().getBalloons());
 	}
 
 	public void update()
@@ -345,9 +332,15 @@ public class Map
 		// build towers
 		// add money
 		// move bloons
-		this.moveBalloons();
+		this.updateBalloons();
 		// hit bloons
 		this.updateTowers();
+		this.updateBullets();
+	}
+
+	private void updateBalloons()
+	{
+		this.getBalloons().update(this.getSegmentData());
 	}
 
 	public PGraphics getMapBuffer()
@@ -380,12 +373,12 @@ public class Map
 		this.pathWidth = pathWidth;
 	}
 
-	public ArrayList<Balloon> getBalloons()
+	public BalloonsManager getBalloons()
 	{
 		return balloons;
 	}
 
-	public void setBalloons(ArrayList<Balloon> balloons)
+	public void setBalloons(BalloonsManager balloons)
 	{
 		this.balloons = balloons;
 	}
@@ -418,6 +411,16 @@ public class Map
 	public void setTowers(ArrayList<Tower> towers)
 	{
 		this.towers = towers;
+	}
+
+	public BulletsManager getBullets()
+	{
+		return bullets;
+	}
+
+	public void setBullets(BulletsManager bullets)
+	{
+		this.bullets = bullets;
 	}
 
 }

@@ -11,6 +11,9 @@ public class Main extends PApplet
 	private Population population;
 	private Map map;
 
+	// used for deltaTime calculations
+	private int lastTime = 0;
+
 	@Override
 	public void settings()
 	{
@@ -38,10 +41,15 @@ public class Main extends PApplet
 //		this.getMap().renderMapToBuffer();
 	}
 
+
 	@Override
 	public void draw()
 	{
-		// exit();
+		// deltaTime calculation
+		int currentTime = this.millis();
+		Global.setDeltaTime(currentTime - lastTime);
+		lastTime = currentTime;
+
 		this.update();
 		this.render();
 	}
@@ -81,6 +89,16 @@ public class Main extends PApplet
 	public void setMap(Map map)
 	{
 		this.map = map;
+	}
+
+	public int getLastTime()
+	{
+		return lastTime;
+	}
+
+	public void setLastTime(int lastTime)
+	{
+		this.lastTime = lastTime;
 	}
 
 }

@@ -58,10 +58,9 @@ public class Tower
 	/**
 	 * called once every frame - incharge of all the tower actions
 	 * 
-	 * @param deltaTime - time elapsed since last frame
 	 * @param balloons  - the list of all the balloons
 	 */
-	public void update(int deltaTime, ArrayList<Balloon> balloons)
+	public void update(ArrayList<Balloon> balloons)
 	{
 		// may nedd to change if in while
 		if (this.canShoot())
@@ -129,13 +128,16 @@ public class Tower
 
 		for (Balloon balloon : balloons)
 		{
-			if (this.isInRange(balloon.getxPos(), balloon.getyPos()))
+			if (balloon.isActive())
 			{
-				float balloonScore = this.evaluateBalloonPriority(balloon, Tower.EVALUATE_FIRST);
-				if (balloonScore > bestScore)
+				if (this.isInRange(balloon.getxPos(), balloon.getyPos()))
 				{
-					bestScore = balloonScore;
-					bestBalloon = balloon;
+					float balloonScore = this.evaluateBalloonPriority(balloon, Tower.EVALUATE_FIRST);
+					if (balloonScore > bestScore)
+					{
+						bestScore = balloonScore;
+						bestBalloon = balloon;
+					}
 				}
 			}
 		}
@@ -168,7 +170,6 @@ public class Tower
 			// and at leas 1 intersection is between the boinding box of the two points
 			if (intercepts.size() == 4)
 			{
-				System.out.println("segment number: " + vertexIndex);
 				boolean isBothSegmentPointsInsideTheCircle = (MathUtils.isPointInsideCircle(this.getxPos(),
 						this.getyPos(), this.getRange(), point1[0],point1[1])
 						&& MathUtils.isPointInsideCircle(this.getxPos(), this.getyPos(), this.getRange(), point2[0],
@@ -195,11 +196,8 @@ public class Tower
 					float endPercent = MathUtils.distance(point1[0], point1[1], startAndEndPoints[1][0],
 							startAndEndPoints[1][1]) / distBetweenPoint1And2;
 
-					System.out.println("start: " + startPercent);
-					System.out.println("end: " + endPercent);
 
 					sp.add(new SegmentPercent(vertexIndex, startPercent, endPercent));
-					System.out.println();
 
 				}
 			}
