@@ -1,6 +1,6 @@
 /**
  * 13-12-2021
- * handle the game map
+ * handle the game map / the simulation object (running the game)
  */
 package com.bloonsTd;
 
@@ -11,6 +11,7 @@ import com.Main;
 import com.bloonsTd.balloons.Balloon;
 import com.bloonsTd.balloons.BalloonsManager;
 import com.bloonsTd.balloons.BalloonsTypesDictionary;
+import com.bloonsTd.rounds.RoundsData;
 import com.bloonsTd.bullets.Bullet;
 import com.bloonsTd.bullets.BulletsManager;
 import com.bloonsTd.towers.Tower;
@@ -53,6 +54,12 @@ public class Map
 
 	private float deltaTime = 1000f / Main.setFrameRate;
 
+	private RoundsData roundsData;
+	private int roundNumber;
+	private float timeSinceLastSpawn;
+	private int subRoundNumber;
+	private int numberOfBalloonsSpawnInThisSubRound;
+
 	public Map(int[] graphicsSize)
 	{
 		// TODO
@@ -68,14 +75,14 @@ public class Map
 		BalloonsTypesDictionary.initTypeDict();
 		this.setBalloons(new BalloonsManager());
 
-		this.getBalloons().addBalloon(BalloonsTypesDictionary.RED_BALLOON, 100, 100, 0, 0);
-		this.getBalloons().addBalloon(BalloonsTypesDictionary.BLUE_BALLOON, 100, 100, 0, 0);
-
-		this.getBalloons().addBalloon(BalloonsTypesDictionary.GREEN_BALLOON, 100, 100, 0, 0);
-		this.getBalloons().addBalloon(BalloonsTypesDictionary.YELLOW_BALLOON, 100, 100, 0, 0);
-		this.getBalloons().addBalloon(BalloonsTypesDictionary.PINK_BALLOON, 100, 100, 0, 0);
-		this.getBalloons().addBalloon(BalloonsTypesDictionary.BLACK_BALLOON, 100, 100, 0, 0);
-		this.getBalloons().addBalloon(BalloonsTypesDictionary.WHITE_BALLOON, 100, 100, 0, 0);
+//		this.getBalloons().addBalloon(BalloonsTypesDictionary.RED_BALLOON, 100, 100, 0, 0);
+//		this.getBalloons().addBalloon(BalloonsTypesDictionary.BLUE_BALLOON, 100, 100, 0, 0);
+//
+//		this.getBalloons().addBalloon(BalloonsTypesDictionary.GREEN_BALLOON, 100, 100, 0, 0);
+//		this.getBalloons().addBalloon(BalloonsTypesDictionary.YELLOW_BALLOON, 100, 100, 0, 0);
+//		this.getBalloons().addBalloon(BalloonsTypesDictionary.PINK_BALLOON, 100, 100, 0, 0);
+//		this.getBalloons().addBalloon(BalloonsTypesDictionary.BLACK_BALLOON, 100, 100, 0, 0);
+//		this.getBalloons().addBalloon(BalloonsTypesDictionary.WHITE_BALLOON, 100, 100, 0, 0);
 
 
 		TowersTypesDictionary.initTypeDict();
@@ -87,7 +94,10 @@ public class Map
 //			this.placeTower(x, 1000, TowersTypesDictionary.DART_MONKEY);
 //		}
 		this.placeTower(500, 500, TowersTypesDictionary.DART_MONKEY, this.getPathPoints());
-		this.placeTower(250, 200, TowersTypesDictionary.DART_MONKEY, this.getPathPoints());
+		this.placeTower(500, 250, TowersTypesDictionary.DART_MONKEY, this.getPathPoints());
+
+		// this.placeTower(250, 200, TowersTypesDictionary.DART_MONKEY,
+		// this.getPathPoints());
 
 		this.setBullets(new BulletsManager());
 //		for (int i = 0; i < 100; i++)
@@ -95,10 +105,19 @@ public class Map
 //			this.getBullets().addBullet(500, 500, (float) Math.random() * 2 - 1, (float) Math.random() * 2 - 1);
 //		}
 
+		this.setRoundsData(new RoundsData());
+
 		// render
 		this.setMapBuffer(Global.getPro().createGraphics(graphicsSize[0], graphicsSize[1]));
 	}
 
+	/**
+	 * 
+	 * @param width
+	 * @param height
+	 * @return - returning an array of the distance from the closest path for each
+	 *         pixel
+	 */
 	private float[][] calculateDistanceFromClosestPathArray(int width, int height)
 	{
 		float[][] distanceFromClosestPathArray = new float[height][width];
@@ -168,6 +187,12 @@ public class Map
 		return distanceFromClosestPathArray;
 	}
 
+	/**
+	 * 
+	 * @param vertices - the points that defign the path
+	 * @return - return an array of important data that will used a lot and only
+	 *         need to be calculated once
+	 */
 	private float[][] createSegmentData(int[][] vertices)
 	{
 		float[][] segments = new float[this.getPathPoints().length - 1][4];
@@ -192,6 +217,9 @@ public class Map
 		return segments;
 	}
 
+	/**
+	 * the main rendering method - call all the smaller rendering methods
+	 */
 	public void renderMapToBuffer()
 	{
 		PGraphics md = this.getMapBuffer(); // md - map display
@@ -247,6 +275,8 @@ public class Map
 	private void renderBackground(PGraphics md)
 	{
 		md.background(150);
+
+		// visulazing the distance from the closest path
 //		for (int y = 0; y < md.height; y++)
 //		{
 //			for (int x = 0; x < md.width; x++)
@@ -307,7 +337,7 @@ public class Map
 
 	private void placeTower(int x, int y, int towerType, int[][] pathPoints)
 	{
-		// TODO
+		// TODO - check if intersecting other towers
 		// check if the place is good
 		// (check if intersecting the path / other towers)
 		// this.getTowers().add(new Tower(x, y, towerType));
@@ -323,7 +353,7 @@ public class Map
 	{
 		for (Tower tower : this.getTowers())
 		{
-			tower.update(deltaTime, this.getBullets(), this.getBalloons().getBalloons());
+			tower.update(this.getDeltaTime(), this.getBullets(), this.getBalloons().getBalloons());
 		}
 	}
 
@@ -332,8 +362,66 @@ public class Map
 		this.getBullets().update(this.getDeltaTime(), this.getBalloons());
 	}
 
+	/**
+	 * spawning new balloons when needed
+	 */
+	private void spawnBalloons()
+	{
+		this.timeSinceLastSpawn -= this.getDeltaTime();
+		// if need to spawn balloon
+		if (this.getTimeSinceLastSpawn() <= 0)
+		{
+			this.setTimeSinceLastSpawn(1000);
+			// if there are still rounds
+			if (this.getRoundNumber() < this.getRoundsData().getRoundsData().size())
+			{
+				// if there are still subrounds
+				if (this.getSubRoundNumber() < this.getRoundsData().getRoundsData().get(this.getRoundNumber())
+						.getSubRounds().size())
+				{
+					// if there are still balloons in that sub round
+					if (this.getNumberOfBalloonsSpawnInThisSubRound() < this.getRoundsData().getRoundsData()
+							.get(this.getRoundNumber()).getSubRounds().get(this.getSubRoundNumber()).getAmount())
+					{
+						this.getBalloons().addBalloon(this.getRoundsData().getRoundsData().get(this.getRoundNumber())
+								.getSubRounds().get(this.getSubRoundNumber()).getType(), 100, 100, 0, 0);
+//						System.out.print(this.getRoundNumber() + " | ");
+//						System.out.print(this.getSubRoundNumber() + " | ");
+//						System.out.print(this.getNumberOfBalloonsSpawnInThisSubRound() + " | ");
+//						System.out.println();
+						this.numberOfBalloonsSpawnInThisSubRound++;
+
+					}
+					else
+					{
+						// when subround ends
+						this.subRoundNumber++;
+						this.setNumberOfBalloonsSpawnInThisSubRound(0);
+					}
+				}
+				else
+				{
+					// when round ends
+					this.roundNumber++;
+					this.setSubRoundNumber(0);
+					this.setNumberOfBalloonsSpawnInThisSubRound(0);
+					this.setTimeSinceLastSpawn(10000);
+
+				}
+			}
+			else
+			{
+				// when all rounds end
+			}
+		}
+	}
+
+	/**
+	 * the main update method
+	 */
 	public void update()
 	{
+		this.spawnBalloons();
 		// build towers
 		// add money
 		// move bloons
@@ -341,6 +429,7 @@ public class Map
 		// hit bloons
 		this.updateTowers();
 		this.updateBullets();
+		System.out.println(this.getBalloons().getBalloons().size());
 	}
 
 	private void updateBalloons()
@@ -436,6 +525,56 @@ public class Map
 	public void setDeltaTime(float deltaTime)
 	{
 		this.deltaTime = deltaTime;
+	}
+
+	public RoundsData getRoundsData()
+	{
+		return roundsData;
+	}
+
+	public void setRoundsData(RoundsData roundsData)
+	{
+		this.roundsData = roundsData;
+	}
+
+	public int getRoundNumber()
+	{
+		return roundNumber;
+	}
+
+	public void setRoundNumber(int roundNumber)
+	{
+		this.roundNumber = roundNumber;
+	}
+
+	public float getTimeSinceLastSpawn()
+	{
+		return timeSinceLastSpawn;
+	}
+
+	public void setTimeSinceLastSpawn(float timeSinceLastSpawn)
+	{
+		this.timeSinceLastSpawn = timeSinceLastSpawn;
+	}
+
+	public int getSubRoundNumber()
+	{
+		return subRoundNumber;
+	}
+
+	public void setSubRoundNumber(int subRoundNumber)
+	{
+		this.subRoundNumber = subRoundNumber;
+	}
+
+	public int getNumberOfBalloonsSpawnInThisSubRound()
+	{
+		return numberOfBalloonsSpawnInThisSubRound;
+	}
+
+	public void setNumberOfBalloonsSpawnInThisSubRound(int numberOfBalloonsSpawnInThisSubRound)
+	{
+		this.numberOfBalloonsSpawnInThisSubRound = numberOfBalloonsSpawnInThisSubRound;
 	}
 
 }

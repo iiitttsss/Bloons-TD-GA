@@ -7,7 +7,7 @@ public class Balloon
 	private boolean isActive; // true if the balloon need to be updated and rendered
 	private int id; // each ballons have a unique number (used by the bullets so they will not hit
 					// the balloon more than once)
-	public static final float BALLOONS_SPEED_MULTIPLIER = 0.04f;
+	public static final float BALLOONS_SPEED_MULTIPLIER = 0.025f;
 
 	private float xPos;
 	private float yPos;
@@ -25,6 +25,16 @@ public class Balloon
 	{
 	}
 
+	/**
+	 * because balloons do not get deleted but didabled, there is no need to
+	 * conctract them each time, so the method initlizing them instead
+	 * 
+	 * @param type
+	 * @param initXPos
+	 * @param initYPos
+	 * @param segmentNumber
+	 * @param percentOfSegment
+	 */
 	public void init(int type, float initXPos, float initYPos,  int segmentNumber, float percentOfSegment)
 	{
 		this.setActive(true);
@@ -36,8 +46,13 @@ public class Balloon
 		this.setPercentOfSegment(percentOfSegment);
 	}
 
+	/**
+	 * 
+	 * @return - return the radius based on the balloon type
+	 */
 	public float getRadius()
 	{
+		// TODO - implament this method (17 is only temprary number)
 		return 17;
 	}
 
@@ -65,9 +80,7 @@ public class Balloon
 				this.setType(BalloonsTypesDictionary.PINK_BALLOON);
 				balloonsManager.addBalloon(type, xPos, yPos, segmentNumber, percentOfSegment);
 				break;
-
 		}
-
 	}
 
 	/**

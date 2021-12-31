@@ -57,7 +57,10 @@ public class Main extends PApplet
 
 	private void update()
 	{
-		this.getMap().update();
+		for (int i = 0; i < 2; i++)
+		{
+			this.getMap().update();
+		}
 	}
 
 	private void render()

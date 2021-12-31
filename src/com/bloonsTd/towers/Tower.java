@@ -70,7 +70,7 @@ public class Tower
 	private float getTowerCoolDown()
 	{
 		// should return based on tower type (from a dictionary)
-		return 500;
+		return 1000;
 	}
 
 	private float getBulletLifeTime()
