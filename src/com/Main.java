@@ -1,6 +1,7 @@
 package com;
 
 import com.bloonsTd.Map;
+import com.bloonsTd.MapRenderer;
 import com.geneticAlgorithem.Population;
 
 import processing.core.*;
@@ -10,6 +11,7 @@ public class Main extends PApplet
 
 	private Population population;
 	private Map map;
+	private MapRenderer mapRenderer;
 
 	public static int setFrameRate = 60;
 	// used for deltaTime calculations
@@ -33,6 +35,7 @@ public class Main extends PApplet
 		// init map
 		int[] screenSize = { this.width, this.height };
 		this.setMap(new Map(screenSize));
+		this.setMapRenderer(new MapRenderer(screenSize, this.getMap()));
 
 		
 //		for (int i = 0; i < 200; i++)
@@ -65,8 +68,8 @@ public class Main extends PApplet
 
 	private void render()
 	{
-		this.getMap().renderMapToBuffer();
-		this.image(this.getMap().getMapBuffer(), 0, 0);
+		this.getMapRenderer().renderMapToBuffer();
+		this.image(this.getMapRenderer().getMapBuffer(), 0, 0);
 
 	}
 
@@ -103,6 +106,16 @@ public class Main extends PApplet
 	public void setLastTime(int lastTime)
 	{
 		this.lastTime = lastTime;
+	}
+
+	public MapRenderer getMapRenderer()
+	{
+		return mapRenderer;
+	}
+
+	public void setMapRenderer(MapRenderer mapRenderer)
+	{
+		this.mapRenderer = mapRenderer;
 	}
 
 }
