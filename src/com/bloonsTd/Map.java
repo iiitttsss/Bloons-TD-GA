@@ -11,7 +11,7 @@ import com.Main;
 import com.bloonsTd.balloons.Balloon;
 import com.bloonsTd.balloons.BalloonsManager;
 import com.bloonsTd.balloons.BalloonsTypesDictionary;
-import com.bloonsTd.rounds.RoundsData;
+import com.bloonsTd.rounds.BalloonsSpawner;
 import com.bloonsTd.bullets.Bullet;
 import com.bloonsTd.bullets.BulletsManager;
 import com.bloonsTd.towers.Tower;
@@ -49,16 +49,11 @@ public class Map
 
 	private BulletsManager bullets;
 
-	// rendering
-	private PGraphics mapBuffer;
 
 	private float deltaTime = 1000f / Main.setFrameRate;
 
-	private RoundsData roundsData;
-	private int roundNumber;
-	private float timeSinceLastSpawn;
-	private int subRoundNumber;
-	private int numberOfBalloonsSpawnInThisSubRound;
+	private BalloonsSpawner balloonsSpawner;
+
 
 	public Map(int[] graphicsSize)
 	{
@@ -105,8 +100,7 @@ public class Map
 //			this.getBullets().addBullet(500, 500, (float) Math.random() * 2 - 1, (float) Math.random() * 2 - 1);
 //		}
 
-		this.setRoundsData(new RoundsData());
-
+		this.setBalloonsSpawner(new BalloonsSpawner());
 		// render
 		this.setMapBuffer(Global.getPro().createGraphics(graphicsSize[0], graphicsSize[1]));
 	}
@@ -363,65 +357,11 @@ public class Map
 	}
 
 	/**
-	 * spawning new balloons when needed
-	 */
-	private void spawnBalloons()
-	{
-		this.timeSinceLastSpawn -= this.getDeltaTime();
-		// if need to spawn balloon
-		if (this.getTimeSinceLastSpawn() <= 0)
-		{
-			this.setTimeSinceLastSpawn(1000);
-			// if there are still rounds
-			if (this.getRoundNumber() < this.getRoundsData().getRoundsData().size())
-			{
-				// if there are still subrounds
-				if (this.getSubRoundNumber() < this.getRoundsData().getRoundsData().get(this.getRoundNumber())
-						.getSubRounds().size())
-				{
-					// if there are still balloons in that sub round
-					if (this.getNumberOfBalloonsSpawnInThisSubRound() < this.getRoundsData().getRoundsData()
-							.get(this.getRoundNumber()).getSubRounds().get(this.getSubRoundNumber()).getAmount())
-					{
-						this.getBalloons().addBalloon(this.getRoundsData().getRoundsData().get(this.getRoundNumber())
-								.getSubRounds().get(this.getSubRoundNumber()).getType(), 100, 100, 0, 0);
-//						System.out.print(this.getRoundNumber() + " | ");
-//						System.out.print(this.getSubRoundNumber() + " | ");
-//						System.out.print(this.getNumberOfBalloonsSpawnInThisSubRound() + " | ");
-//						System.out.println();
-						this.numberOfBalloonsSpawnInThisSubRound++;
-
-					}
-					else
-					{
-						// when subround ends
-						this.subRoundNumber++;
-						this.setNumberOfBalloonsSpawnInThisSubRound(0);
-					}
-				}
-				else
-				{
-					// when round ends
-					this.roundNumber++;
-					this.setSubRoundNumber(0);
-					this.setNumberOfBalloonsSpawnInThisSubRound(0);
-					this.setTimeSinceLastSpawn(10000);
-
-				}
-			}
-			else
-			{
-				// when all rounds end
-			}
-		}
-	}
-
-	/**
 	 * the main update method
 	 */
 	public void update()
 	{
-		this.spawnBalloons();
+		this.getBalloonsSpawner().spawnBalloons(deltaTime, this.getBalloons());
 		// build towers
 		// add money
 		// move bloons
@@ -429,7 +369,6 @@ public class Map
 		// hit bloons
 		this.updateTowers();
 		this.updateBullets();
-		System.out.println(this.getBalloons().getBalloons().size());
 	}
 
 	private void updateBalloons()
@@ -527,54 +466,13 @@ public class Map
 		this.deltaTime = deltaTime;
 	}
 
-	public RoundsData getRoundsData()
+	public BalloonsSpawner getBalloonsSpawner()
 	{
-		return roundsData;
+		return balloonsSpawner;
 	}
 
-	public void setRoundsData(RoundsData roundsData)
+	public void setBalloonsSpawner(BalloonsSpawner balloonsSpawner)
 	{
-		this.roundsData = roundsData;
+		this.balloonsSpawner = balloonsSpawner;
 	}
-
-	public int getRoundNumber()
-	{
-		return roundNumber;
-	}
-
-	public void setRoundNumber(int roundNumber)
-	{
-		this.roundNumber = roundNumber;
-	}
-
-	public float getTimeSinceLastSpawn()
-	{
-		return timeSinceLastSpawn;
-	}
-
-	public void setTimeSinceLastSpawn(float timeSinceLastSpawn)
-	{
-		this.timeSinceLastSpawn = timeSinceLastSpawn;
-	}
-
-	public int getSubRoundNumber()
-	{
-		return subRoundNumber;
-	}
-
-	public void setSubRoundNumber(int subRoundNumber)
-	{
-		this.subRoundNumber = subRoundNumber;
-	}
-
-	public int getNumberOfBalloonsSpawnInThisSubRound()
-	{
-		return numberOfBalloonsSpawnInThisSubRound;
-	}
-
-	public void setNumberOfBalloonsSpawnInThisSubRound(int numberOfBalloonsSpawnInThisSubRound)
-	{
-		this.numberOfBalloonsSpawnInThisSubRound = numberOfBalloonsSpawnInThisSubRound;
-	}
-
 }
