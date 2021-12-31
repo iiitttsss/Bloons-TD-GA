@@ -53,11 +53,11 @@ public class Map
 
 		TowersTypesDictionary.initTypeDict();
 		this.setTowers(new ArrayList<Tower>());
-//		for (int x = 0; x < 1200; x += 100)
+//		for (int x = 0; x < 1200; x += 50)
 //		{
 //
-//			this.placeTower(x, 500, TowersTypesDictionary.DART_MONKEY);
-//			this.placeTower(x, 1000, TowersTypesDictionary.DART_MONKEY);
+//			TowerPlacer.placeTower(this.getPath(), this.getTowers(), x, 500, TowersTypesDictionary.DART_MONKEY);
+//			TowerPlacer.placeTower(this.getPath(), this.getTowers(), x, 1000, TowersTypesDictionary.DART_MONKEY);
 //		}
 		TowerPlacer.placeTower(this.getPath(), this.getTowers(), 500, 500, TowersTypesDictionary.DART_MONKEY);
 

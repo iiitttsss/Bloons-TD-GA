@@ -24,6 +24,9 @@ public class Path
 	// this array store the distance to the closest path
 	private float[][] distanceFromClosestPath;
 
+	// the width and height of the map
+	private int[] mapSize;
+
 	public Path(int[] graphicsSize, int[][] newPathPoints)
 	{
 		this.setPathWidth(40);
@@ -33,6 +36,7 @@ public class Path
 
 		this.setDistanceFromClosestPath(this.calculateDistanceFromClosestPathArray(graphicsSize[0], graphicsSize[1]));
 
+		this.setMapSize(graphicsSize);
 	}
 
 	/**
@@ -179,5 +183,15 @@ public class Path
 	public void setDistanceFromClosestPath(float[][] distanceFromClosestPath)
 	{
 		this.distanceFromClosestPath = distanceFromClosestPath;
+	}
+
+	public int[] getMapSize()
+	{
+		return mapSize;
+	}
+
+	public void setMapSize(int[] mapSize)
+	{
+		this.mapSize = mapSize;
 	}
 }

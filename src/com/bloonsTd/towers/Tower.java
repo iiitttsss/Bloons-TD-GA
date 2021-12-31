@@ -41,6 +41,15 @@ public class Tower
 
 	/**
 	 * 
+	 * @return - returning the tower radius based on its type
+	 */
+	public float getRadius()
+	{
+		return TowersTypesDictionary.typeDict.get(this.getType()).getRadius();
+	}
+
+	/**
+	 * 
 	 * @return - return true if the tower can shoot (based of cool down timer);
 	 */
 	private boolean canShoot()
