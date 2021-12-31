@@ -55,7 +55,6 @@ public class Tower
 	 */
 	private void shoot(BulletsManager bulletsManager, Balloon targetBalloon)
 	{
-		// TODO
 		float dx = (targetBalloon.getxPos() - this.getxPos());
 		float dy = (targetBalloon.getyPos() - this.getyPos());
 		float magnitude = MathUtils.distance(0, 0, dx, dy);

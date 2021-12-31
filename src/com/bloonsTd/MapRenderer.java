@@ -119,16 +119,16 @@ public class MapRenderer
 
 	private void renderPaths(PGraphics md)
 	{
-		for (int i = 0; i < this.getMapReference().getPathPoints().length; i++)
+		for (int i = 0; i < this.getMapReference().getPath().getPathPoints().length; i++)
 		{
-			int[] vertex = this.getMapReference().getPathPoints()[i];
+			int[] vertex = this.getMapReference().getPath().getPathPoints()[i];
 
 			md.pushStyle();
-			md.strokeWeight(this.getMapReference().getPathWidth() * 2);
+			md.strokeWeight(this.getMapReference().getPath().getPathWidth() * 2);
 			md.stroke(200);
-			if (i != this.getMapReference().getPathPoints().length - 1)
+			if (i != this.getMapReference().getPath().getPathPoints().length - 1)
 			{
-				int[] nextVertex = this.getMapReference().getPathPoints()[i + 1];
+				int[] nextVertex = this.getMapReference().getPath().getPathPoints()[i + 1];
 				md.line(vertex[0], vertex[1], nextVertex[0], nextVertex[1]);
 			}
 			md.strokeWeight(3);
