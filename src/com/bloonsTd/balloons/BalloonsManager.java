@@ -13,6 +13,14 @@ public class BalloonsManager
 		this.setActiveBalloons(new ArrayList<Balloon>());
 	}
 
+	public void init()
+	{
+		for (Balloon balloon : this.getBalloons())
+		{
+			balloon.setActive(false);
+		}
+	}
+
 	public void updateActiveBalloons()
 	{
 		this.getActiveBalloons().clear();

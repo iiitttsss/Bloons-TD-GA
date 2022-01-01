@@ -14,6 +14,14 @@ public class BulletsManager
 		this.setBullets(new ArrayList<Bullet>());
 	}
 
+	public void init()
+	{
+		for (Bullet bullet : this.getBullets())
+		{
+			bullet.setActive(false);
+		}
+	}
+
 	public void update(float deltaTime, BalloonsManager allBalloons)
 	{
 		for (Bullet b : this.getBullets())

@@ -33,26 +33,14 @@ public class Map
 
 	public Map(int[] graphicsSize)
 	{
-		this.setLives(200);
 		// path
-		int[][] pathPoints = {
-				{ 100, 100 }, { 50, 400 }, { 800, 300 }, { 500, 800 }, { 700, 800 }, { 700, 1000 }, { 900, 1000 },
-				{ 900, 700 }, { 100, 550 } };
+		int[][] pathPoints = { { 100, 100 }, { 50, 400 }, { 800, 300 }, { 500, 800 }, { 700, 800 }, { 700, 1000 },
+				{ 900, 1000 }, { 900, 700 }, { 100, 550 } };
 		this.setPath(new Path(graphicsSize, pathPoints));
 
 		// balloons
 		BalloonsTypesDictionary.initTypeDict();
 		this.setBalloons(new BalloonsManager());
-
-//		this.getBalloons().addBalloon(BalloonsTypesDictionary.RED_BALLOON, 100, 100, 0, 0);
-//		this.getBalloons().addBalloon(BalloonsTypesDictionary.BLUE_BALLOON, 100, 100, 0, 0);
-//
-//		this.getBalloons().addBalloon(BalloonsTypesDictionary.GREEN_BALLOON, 100, 100, 0, 0);
-//		this.getBalloons().addBalloon(BalloonsTypesDictionary.YELLOW_BALLOON, 100, 100, 0, 0);
-//		this.getBalloons().addBalloon(BalloonsTypesDictionary.PINK_BALLOON, 100, 100, 0, 0);
-//		this.getBalloons().addBalloon(BalloonsTypesDictionary.BLACK_BALLOON, 100, 100, 0, 0);
-//		this.getBalloons().addBalloon(BalloonsTypesDictionary.WHITE_BALLOON, 100, 100, 0, 0);
-
 
 		TowersTypesDictionary.initTypeDict();
 		this.setTowers(new ArrayList<Tower>());
@@ -62,7 +50,6 @@ public class Map
 //			TowerPlacer.placeTower(this.getPath(), this.getTowers(), x, 500, TowersTypesDictionary.DART_MONKEY);
 //			TowerPlacer.placeTower(this.getPath(), this.getTowers(), x, 700, TowersTypesDictionary.DART_MONKEY);
 //		}
-		TowerPlacer.placeTower(this.getPath(), this.getTowers(), 500, 500, TowersTypesDictionary.DART_MONKEY);
 
 		this.setBullets(new BulletsManager());
 
@@ -72,6 +59,15 @@ public class Map
 //		}
 
 		this.setBalloonsSpawner(new BalloonsSpawner());
+	}
+
+	public void init()
+	{
+		this.setLives(200);
+		this.getBalloons().init();
+		TowerPlacer.placeTower(this.getPath(), this.getTowers(), 500, 500, TowersTypesDictionary.DART_MONKEY);
+		this.getBullets().init();
+		this.getBalloonsSpawner().init();
 	}
 
 	/**
@@ -113,7 +109,6 @@ public class Map
 		this.getBullets().update(this.getDeltaTime(), this.getBalloons());
 		this.lives -= this.getBalloons().checkForPasses(this.getPath().getSegmentData());
 	}
-
 
 	public BalloonsManager getBalloons()
 	{

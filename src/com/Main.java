@@ -35,6 +35,7 @@ public class Main extends PApplet
 		// init map
 		int[] screenSize = { this.width, this.height };
 		this.setMap(new Map(screenSize));
+		this.getMap().init();
 		this.setMapRenderer(new MapRenderer(screenSize, this.getMap()));
 
 		

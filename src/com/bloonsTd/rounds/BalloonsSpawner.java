@@ -16,6 +16,14 @@ public class BalloonsSpawner
 		this.setRoundsData(new RoundsData());
 	}
 
+	public void init()
+	{
+		this.setRoundNumber(0);
+		this.setTimeSinceLastSpawn(0);
+		this.setSubRoundNumber(0);
+		this.setNumberOfBalloonsSpawnInThisSubRound(0);
+	}
+
 	/**
 	 * spawning new balloons when needed
 	 */
