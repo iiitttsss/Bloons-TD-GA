@@ -4,7 +4,7 @@ package com.bloonsTd.rounds;
 
 import java.util.ArrayList;
 
-import com.bloonsTd.balloons.BalloonsTypesDictionary;
+import com.bloonsTd.entities.balloons.BalloonsTypesDictionary;
 
 public class Round
 {

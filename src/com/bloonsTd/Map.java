@@ -7,14 +7,14 @@ package com.bloonsTd;
 import java.util.ArrayList;
 
 import com.Main;
-import com.bloonsTd.balloons.BalloonsManager;
-import com.bloonsTd.balloons.BalloonsTypesDictionary;
-import com.bloonsTd.rounds.BalloonsSpawner;
-import com.bloonsTd.bullets.BulletsManager;
+import com.bloonsTd.entities.balloons.BalloonsManager;
+import com.bloonsTd.entities.balloons.BalloonsTypesDictionary;
+import com.bloonsTd.entities.bullets.BulletsManager;
+import com.bloonsTd.entities.towers.Tower;
+import com.bloonsTd.entities.towers.TowerPlacer;
+import com.bloonsTd.entities.towers.TowersTypesDictionary;
 import com.bloonsTd.path.Path;
-import com.bloonsTd.towers.Tower;
-import com.bloonsTd.towers.TowerPlacer;
-import com.bloonsTd.towers.TowersTypesDictionary;
+import com.bloonsTd.rounds.BalloonsSpawner;
 
 public class Map
 {
@@ -96,15 +96,23 @@ public class Map
 	}
 
 	/**
+	 * happan before update
+	 */
+	public void preUpdate()
+	{
+		this.getBalloons().updateActiveEntities();
+		this.getBullets().updateActiveEntities();
+	}
+
+	/**
 	 * the main update method
 	 */
 	public void update()
 	{
-		this.getBalloons().updateActiveBalloons();
 		this.getBalloonsSpawner().spawnBalloons(deltaTime, this.getBalloons());
 		// build towers
 		// add money
-		this.getBalloons().update(this.getDeltaTime(), this.getPath().getSegmentData());
+		this.getBalloons().moveBalloons(this.getDeltaTime(), this.getPath().getSegmentData());
 		this.updateTowers();
 		this.getBullets().update(this.getDeltaTime(), this.getBalloons());
 		this.lives -= this.getBalloons().checkForPasses(this.getPath().getSegmentData());

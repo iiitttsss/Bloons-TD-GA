@@ -1,11 +1,12 @@
 package com.bloonsTd;
 
 import com.Global;
-import com.bloonsTd.balloons.Balloon;
-import com.bloonsTd.balloons.BalloonsTypesDictionary;
-import com.bloonsTd.bullets.Bullet;
-import com.bloonsTd.towers.Tower;
-import com.bloonsTd.towers.TowersTypesDictionary;
+import com.bloonsTd.entities.Entity;
+import com.bloonsTd.entities.balloons.Balloon;
+import com.bloonsTd.entities.balloons.BalloonsTypesDictionary;
+import com.bloonsTd.entities.bullets.Bullet;
+import com.bloonsTd.entities.towers.Tower;
+import com.bloonsTd.entities.towers.TowersTypesDictionary;
 
 import processing.core.PGraphics;
 
@@ -42,21 +43,23 @@ public class MapRenderer
 		md.text(Global.getPro().mouseY, 30, 45);
 		md.text("lives: " + this.getMapReference().getLives(), 30, 60);
 
+		md.text("# of balloons: " + this.getMapReference().getBalloons().getEntities().size(), 1100, 15);
+		md.text("# of bullets: " + this.getMapReference().getBullets().getEntities().size(), 1100, 30);
+
 		md.endDraw();
 	}
 
 	private void renderBullets(PGraphics md)
 	{
 		md.pushStyle();
-		for (Bullet bullet : this.getMapReference().getBullets().getBullets())
+		for (Entity entity : this.getMapReference().getBullets().getActiveEntities())
 		{
-			if (bullet.isActive())
-			{
-				md.circle(bullet.getxPos(), bullet.getyPos(), bullet.getRadius() * 2);
-			}
+			Bullet bullet = (Bullet) entity;
+
+			md.circle(bullet.getxPos(), bullet.getyPos(), bullet.getRadius() * 2);
+
 		}
 		md.popStyle();
-
 	}
 
 	private void renderTowers(PGraphics md)
@@ -107,8 +110,9 @@ public class MapRenderer
 	private void renderBloons(PGraphics md)
 	{
 		md.push();
-		for (Balloon balloon : this.getMapReference().getBalloons().getBalloons())
+		for (Entity entity : this.getMapReference().getBalloons().getActiveEntities())
 		{
+			Balloon balloon = (Balloon) entity;
 			if (balloon.isActive())
 			{
 				md.fill(BalloonsTypesDictionary.typeDict.get(balloon.getType()).getColor());

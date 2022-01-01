@@ -4,7 +4,7 @@ import com.bloonsTd.Map;
 import com.bloonsTd.MapRenderer;
 import com.geneticAlgorithem.Population;
 
-import processing.core.*;
+import processing.core.PApplet;
 
 public class Main extends PApplet
 {
@@ -63,6 +63,7 @@ public class Main extends PApplet
 	{
 		for (int i = 0; i < 1; i++)
 		{
+			this.getMap().preUpdate();
 			this.getMap().update();
 		}
 	}

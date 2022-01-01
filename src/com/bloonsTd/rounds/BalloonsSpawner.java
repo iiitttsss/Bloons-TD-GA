@@ -1,6 +1,6 @@
 package com.bloonsTd.rounds;
 
-import com.bloonsTd.balloons.BalloonsManager;
+import com.bloonsTd.entities.balloons.BalloonsManager;
 
 public class BalloonsSpawner
 {
