@@ -40,6 +40,7 @@ public class MapRenderer
 		md.text(Global.getPro().frameRate, 30, 15);
 		md.text(Global.getPro().mouseX, 30, 30);
 		md.text(Global.getPro().mouseY, 30, 45);
+		md.text("lives: " + this.getMapReference().getLives(), 30, 60);
 
 		md.endDraw();
 	}

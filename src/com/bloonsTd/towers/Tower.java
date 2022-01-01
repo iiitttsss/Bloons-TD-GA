@@ -3,6 +3,7 @@ package com.bloonsTd.towers;
 import java.util.ArrayList;
 
 import com.bloonsTd.balloons.Balloon;
+import com.bloonsTd.balloons.BalloonsManager;
 import com.bloonsTd.bullets.BulletsManager;
 import com.bloonsTd.towers.smartRange.SegmentPercent;
 import com.util.MathUtils;
@@ -27,7 +28,6 @@ public class Tower
 	public static final int EVALUATE_LAST = 3;
 
 	private Balloon lastTarget;
-
 
 	public Tower(float xPos, float yPos, int type, int[][] pathPoints)
 	{
@@ -96,9 +96,9 @@ public class Tower
 	/**
 	 * called once every frame - incharge of all the tower actions
 	 * 
-	 * @param balloons  - the list of all the balloons
+	 * @param balloons - the list of all the balloons
 	 */
-	public void update(float deltaTime, BulletsManager bulletsManager, ArrayList<Balloon> balloons)
+	public void update(float deltaTime, BulletsManager bulletsManager, BalloonsManager balloons)
 	{
 		// may nedd to change if in while
 		this.coolDownRemained -= deltaTime;
@@ -141,7 +141,7 @@ public class Tower
 		case Tower.EVALUATE_LAST:
 			return 1f / (balloon.getSegmentNumber() + balloon.getPercentOfSegment());
 		case Tower.EVALUATE_STRONG:
-			return balloon.calulateStrength();
+			return balloon.getStrength();
 		default:
 			return Float.MIN_VALUE;
 		}
@@ -152,10 +152,11 @@ public class Tower
 	 * @param y - y pos
 	 * @return - if the point (x, y) is within range
 	 */
-	private boolean isInRange(float x, float y)
+	private boolean isInRange(Balloon balloon)
 	{
-		float range = this.getRange();
-		return MathUtils.distanceSquare(x, y, this.getxPos(), this.getyPos()) < range * range;
+		float range = this.getRange() + balloon.getRadius();
+		return MathUtils.distanceSquare(balloon.getxPos(), balloon.getyPos(), this.getxPos(), this.getyPos()) < range
+				* range;
 	}
 
 	/**
@@ -163,25 +164,24 @@ public class Tower
 	 * @param balloons - the list of all the balloons
 	 * @return - the best balloon to target
 	 */
-	private Balloon chooseTarget(ArrayList<Balloon> balloons)
+	private Balloon chooseTarget(BalloonsManager balloons)
 	{
 		Balloon bestBalloon = null;
 		float bestScore = Float.MIN_VALUE;
 
-		for (Balloon balloon : balloons)
+		for (Balloon balloon : balloons.getActiveBalloons())
 		{
-			if (balloon.isActive())
+
+			if (this.isInRange(balloon))
 			{
-				if (this.isInRange(balloon.getxPos(), balloon.getyPos()))
+				float balloonScore = this.evaluateBalloonPriority(balloon, Tower.EVALUATE_FIRST);
+				if (balloonScore > bestScore)
 				{
-					float balloonScore = this.evaluateBalloonPriority(balloon, Tower.EVALUATE_FIRST);
-					if (balloonScore > bestScore)
-					{
-						bestScore = balloonScore;
-						bestBalloon = balloon;
-					}
+					bestScore = balloonScore;
+					bestBalloon = balloon;
 				}
 			}
+
 		}
 		this.setLastTarget(bestBalloon);
 		return bestBalloon;
@@ -197,14 +197,14 @@ public class Tower
 	private ArrayList<SegmentPercent> createSegmentsPercents(int[][] pathPoints)
 	{
 		ArrayList<SegmentPercent> sp = new ArrayList<SegmentPercent>();
-		
+
 		for (int vertexIndex = 0; vertexIndex < pathPoints.length - 1; vertexIndex++)
 		{
 			int[] point1 = pathPoints[vertexIndex];
 			int[] point2 = pathPoints[vertexIndex + 1];
 
-			ArrayList<Float> intercepts = MathUtils.calculateLineCircleXIntercepts(this.getxPos(), this.getyPos(), this.getRange(), point1[0],
-					point1[1], point2[0], point2[1]);
+			ArrayList<Float> intercepts = MathUtils.calculateLineCircleXIntercepts(this.getxPos(), this.getyPos(),
+					this.getRange(), point1[0], point1[1], point2[0], point2[1]);
 
 			// if there are 2 intercepts
 			// 4 because it contains: x1, y1, x2, y2
@@ -213,17 +213,16 @@ public class Tower
 			if (intercepts.size() == 4)
 			{
 				boolean isBothSegmentPointsInsideTheCircle = (MathUtils.isPointInsideCircle(this.getxPos(),
-						this.getyPos(), this.getRange(), point1[0],point1[1])
+						this.getyPos(), this.getRange(), point1[0], point1[1])
 						&& MathUtils.isPointInsideCircle(this.getxPos(), this.getyPos(), this.getRange(), point2[0],
 								point2[1]));
 //				boolean isIntercept1InsideTheSegmentBox = ;
 //				boolean isIntercept2InsideTheSegmentBox = ;
-				
 
-				if (isBothSegmentPointsInsideTheCircle
-						|| (MathUtils.isPointInsideBox(point1[0], point1[1], point2[0],
-								point2[1], intercepts.get(0), intercepts.get(1)) || MathUtils.isPointInsideBox(point1[0], point1[1], point2[0],
-								point2[1], intercepts.get(2), intercepts.get(3))))
+				if (isBothSegmentPointsInsideTheCircle || (MathUtils.isPointInsideBox(point1[0], point1[1], point2[0],
+						point2[1], intercepts.get(0), intercepts.get(1))
+						|| MathUtils.isPointInsideBox(point1[0], point1[1], point2[0], point2[1], intercepts.get(2),
+								intercepts.get(3))))
 				{
 					float[][] startAndEndPoints = this.determineStartAndEndPointForSegmentsInsideRange(intercepts,
 							point1, point2);
@@ -237,7 +236,6 @@ public class Tower
 							startAndEndPoints[0][1]) / distBetweenPoint1And2;
 					float endPercent = MathUtils.distance(point1[0], point1[1], startAndEndPoints[1][0],
 							startAndEndPoints[1][1]) / distBetweenPoint1And2;
-
 
 					sp.add(new SegmentPercent(vertexIndex, startPercent, endPercent));
 
@@ -319,19 +317,21 @@ public class Tower
 
 	}
 
-
 	public float getxPos()
 	{
 		return xPos;
 	}
+
 	public void setxPos(float xPos)
 	{
 		this.xPos = xPos;
 	}
+
 	public float getyPos()
 	{
 		return yPos;
 	}
+
 	public void setyPos(float yPos)
 	{
 		this.yPos = yPos;

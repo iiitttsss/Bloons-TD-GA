@@ -25,19 +25,21 @@ public class BalloonsTypesDictionary
 
 	public static void initTypeDict()
 	{
-		BalloonsTypesDictionary.typeDict.put(RED_BALLOON, new BalloonType(1, 240, 30, 40));
-		BalloonsTypesDictionary.typeDict.put(BLUE_BALLOON, new BalloonType(1.4f, 40, 150, 220));
-		BalloonsTypesDictionary.typeDict.put(GREEN_BALLOON, new BalloonType(1.8f, 110, 180, 0));
-
-		BalloonsTypesDictionary.typeDict.put(YELLOW_BALLOON, new BalloonType(3.2f, 255, 220, 5));
-		BalloonsTypesDictionary.typeDict.put(PINK_BALLOON, new BalloonType(3.5f, 255, 70, 100));
-		BalloonsTypesDictionary.typeDict.put(BLACK_BALLOON, new BalloonType(1.8f, 22, 22, 22));
-		BalloonsTypesDictionary.typeDict.put(WHITE_BALLOON, new BalloonType(2f, 190, 240, 255));
-
-//		BalloonsTypesDictionary.typeDict.put(LEAD_BALLOON, new BalloonType(1f, 40, 150, 220));
-//		BalloonsTypesDictionary.typeDict.put(ZEBRA_BALLOON, new BalloonType(1.8f, 40, 150, 220));
-//		BalloonsTypesDictionary.typeDict.put(RAINBOW_BALLOON, new BalloonType(1.8f, 40, 150, 220));
-//		BalloonsTypesDictionary.typeDict.put(CERAMIC_BALLOON, new BalloonType(2.5f, 40, 150, 220));
+		//																		spd    R    G    B    rad   str
+		BalloonsTypesDictionary.typeDict.put(RED_BALLOON, 		new BalloonType(1.00f, 240, 030, 040, 025, 1));
+		BalloonsTypesDictionary.typeDict.put(BLUE_BALLOON, 		new BalloonType(1.40f, 040, 150, 220, 030, 2));
+		BalloonsTypesDictionary.typeDict.put(GREEN_BALLOON, 	new BalloonType(1.80f, 110, 180, 000, 033, 3));
+		BalloonsTypesDictionary.typeDict.put(YELLOW_BALLOON, 	new BalloonType(3.20f, 255, 220, 005, 036, 4));
+		BalloonsTypesDictionary.typeDict.put(PINK_BALLOON, 		new BalloonType(3.50f, 255, 070, 100, 040, 5));
+		BalloonsTypesDictionary.typeDict.put(BLACK_BALLOON, 	new BalloonType(1.80f, 022, 022, 022, 021, 11));
+		BalloonsTypesDictionary.typeDict.put(WHITE_BALLOON, 	new BalloonType(2.00f, 190, 240, 255, 021, 11));
+		BalloonsTypesDictionary.typeDict.put(LEAD_BALLOON, 		new BalloonType(1.00f, 040, 150, 220, 033, 23));
+		BalloonsTypesDictionary.typeDict.put(ZEBRA_BALLOON, 	new BalloonType(1.80f, 255, 255, 255, 033, 23));
+		BalloonsTypesDictionary.typeDict.put(RAINBOW_BALLOON, 	new BalloonType(1.80f, 255, 255, 255, 040, 47));
+		BalloonsTypesDictionary.typeDict.put(CERAMIC_BALLOON, 	new BalloonType(2.50f, 255, 255, 255, 040, 104));
+		BalloonsTypesDictionary.typeDict.put(MOAB_BALLOON, 		new BalloonType(1.00f, 255, 255, 255, 115, 616));
+		BalloonsTypesDictionary.typeDict.put(BFB_BALLOON, 		new BalloonType(0.25f, 255, 255, 255, 180, 3164));
+		BalloonsTypesDictionary.typeDict.put(ZOMG_BALLOON, 		new BalloonType(0.18f, 255, 255, 255, 215, 16656));
 
 	}
 

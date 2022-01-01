@@ -42,17 +42,16 @@ public class Bullet
 		this.setxVel(xVel);
 		this.setyVel(yVel);
 
-		this.setPierceRemained(1);
+		this.setPierceRemained(10);
 		this.setLifeTimeRemained(lifeTime);
 
 		this.getBalloonsClearList().clear();
 	}
 
-
-	public void update(float deltaTime, BalloonsManager allBalloons)
+	public void update(float deltaTime, BalloonsManager balloons)
 	{
 		this.move();
-		this.collisionWithBalloons(allBalloons);
+		this.collisionWithBalloons(balloons);
 		this.despawn(deltaTime);
 	}
 
@@ -89,23 +88,18 @@ public class Bullet
 	 */
 	private void collisionWithBalloons(BalloonsManager balloonsManager)
 	{
-		for (Balloon balloon : balloonsManager.getBalloons())
+		for (Balloon balloon : balloonsManager.getActiveBalloons())
 		{
-			if (balloon.isActive())
+			if (!this.getBalloonsClearList().contains(balloon.getId()))
 			{
-				if (!this.getBalloonsClearList().contains(balloon.getId()))
-				{
-					float disSq = MathUtils.distanceSquare(this.getxPos(), this.getyPos(), balloon.getxPos(),
-							balloon.getyPos());
-					float maxDisSq = (this.getRadius() + balloon.getRadius())
-							* (this.getRadius() + balloon.getRadius());
+				float disSq = MathUtils.distanceSquare(this.getxPos(), this.getyPos(), balloon.getxPos(),
+						balloon.getyPos());
+				float maxDisSq = (this.getRadius() + balloon.getRadius()) * (this.getRadius() + balloon.getRadius());
 
-					if (disSq < maxDisSq)
-					{
-						balloon.hit(this, balloonsManager);
-						this.hit(balloon);
-						// System.out.println("hit");
-					}
+				if (disSq < maxDisSq)
+				{
+					this.hit(balloon);
+					balloon.hit(this, balloonsManager, this.getBalloonsClearList());
 				}
 			}
 
@@ -136,7 +130,6 @@ public class Bullet
 		this.xPos += this.xVel;
 		this.yPos += this.yVel;
 	}
-
 
 	public boolean isActive()
 	{

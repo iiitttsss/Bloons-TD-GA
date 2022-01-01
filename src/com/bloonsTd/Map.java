@@ -18,6 +18,8 @@ import com.bloonsTd.towers.TowersTypesDictionary;
 
 public class Map
 {
+	private float lives;
+
 	private Path path;
 
 	private BalloonsManager balloons;
@@ -31,6 +33,7 @@ public class Map
 
 	public Map(int[] graphicsSize)
 	{
+		this.setLives(200);
 		// path
 		int[][] pathPoints = {
 				{ 100, 100 }, { 50, 400 }, { 800, 300 }, { 500, 800 }, { 700, 800 }, { 700, 1000 }, { 900, 1000 },
@@ -57,7 +60,7 @@ public class Map
 //		{
 //
 //			TowerPlacer.placeTower(this.getPath(), this.getTowers(), x, 500, TowersTypesDictionary.DART_MONKEY);
-//			TowerPlacer.placeTower(this.getPath(), this.getTowers(), x, 1000, TowersTypesDictionary.DART_MONKEY);
+//			TowerPlacer.placeTower(this.getPath(), this.getTowers(), x, 700, TowersTypesDictionary.DART_MONKEY);
 //		}
 		TowerPlacer.placeTower(this.getPath(), this.getTowers(), 500, 500, TowersTypesDictionary.DART_MONKEY);
 
@@ -71,17 +74,29 @@ public class Map
 		this.setBalloonsSpawner(new BalloonsSpawner());
 	}
 
+	/**
+	 * 
+	 * @return - returning the score of this round
+	 */
+	public float calculateScore()
+	{
+		return this.getBalloonsSpawner().getRoundNumber() * 10 + this.getBalloonsSpawner().getSubRoundNumber();
+	}
+
+	/**
+	 * @return - returning true if game is over
+	 */
+	public boolean isGameOver()
+	{
+		return this.getLives() <= 0;
+	}
+
 	private void updateTowers()
 	{
 		for (Tower tower : this.getTowers())
 		{
-			tower.update(this.getDeltaTime(), this.getBullets(), this.getBalloons().getBalloons());
+			tower.update(this.getDeltaTime(), this.getBullets(), this.getBalloons());
 		}
-	}
-
-	private void updateBullets()
-	{
-		this.getBullets().update(this.getDeltaTime(), this.getBalloons());
 	}
 
 	/**
@@ -89,20 +104,16 @@ public class Map
 	 */
 	public void update()
 	{
+		this.getBalloons().updateActiveBalloons();
 		this.getBalloonsSpawner().spawnBalloons(deltaTime, this.getBalloons());
 		// build towers
 		// add money
-		// move bloons
-		this.updateBalloons();
-		// hit bloons
+		this.getBalloons().update(this.getDeltaTime(), this.getPath().getSegmentData());
 		this.updateTowers();
-		this.updateBullets();
+		this.getBullets().update(this.getDeltaTime(), this.getBalloons());
+		this.lives -= this.getBalloons().checkForPasses(this.getPath().getSegmentData());
 	}
 
-	private void updateBalloons()
-	{
-		this.getBalloons().update(this.getDeltaTime(), this.getPath().getSegmentData());
-	}
 
 	public BalloonsManager getBalloons()
 	{
@@ -162,5 +173,15 @@ public class Map
 	public void setPath(Path path)
 	{
 		this.path = path;
+	}
+
+	public float getLives()
+	{
+		return lives;
+	}
+
+	public void setLives(float lives)
+	{
+		this.lives = lives;
 	}
 }

@@ -9,10 +9,16 @@ public class BalloonType
 	// color
 	private int color;
 
-	public BalloonType(float speed, int colorR, int colorG, int colorB)
+	private float radius;
+
+	private float strength;
+
+	public BalloonType(float speed, int colorR, int colorG, int colorB, float radius, float strength)
 	{
 		this.speed = speed;
 		this.color = Global.getPro().color(colorR, colorG, colorB);
+		this.setRadius(radius);
+		this.setStrength(strength);
 	}
 
 	public float getSpeed()
@@ -33,5 +39,25 @@ public class BalloonType
 	public void setColor(int color)
 	{
 		this.color = color;
+	}
+
+	public float getRadius()
+	{
+		return radius;
+	}
+
+	public void setRadius(float radius)
+	{
+		this.radius = radius;
+	}
+
+	public float getStrength()
+	{
+		return strength;
+	}
+
+	public void setStrength(float strength)
+	{
+		this.strength = strength;
 	}
 }

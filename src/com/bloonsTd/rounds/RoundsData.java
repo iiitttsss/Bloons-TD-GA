@@ -15,7 +15,7 @@ public class RoundsData
 	{
 		try
 		{
-			roundsData = loadRoundsData("src/com/data/rounds.txt");
+			roundsData = loadRoundsData("src/com/data/roundsAdv.txt");
 		}
 		catch (Exception e)
 		{
