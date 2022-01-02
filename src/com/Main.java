@@ -20,7 +20,7 @@ public class Main extends PApplet
 	@Override
 	public void settings()
 	{
-		size(1200, 1200);
+		this.size(1200, 1200);
 	}
 
 	@Override
@@ -37,7 +37,6 @@ public class Main extends PApplet
 		this.setMap(new Map(screenSize));
 		this.getMap().init();
 		this.setMapRenderer(new MapRenderer(screenSize, this.getMap()));
-
 		
 //		for (int i = 0; i < 200; i++)
 //		{

@@ -1,0 +1,85 @@
+20 Red
+30 Red
+20 Red, 5 Blue
+30 Red, 15 Blue
+5 Red, 25 Blue
+15 Red, 15 Blue, 4 Green
+20 Red, 25 Blue, 5 Green
+10 Red, 20 Blue, 14 Green
+30 Green
+102 Blue
+10 Red, 10 Blue, 12 Green, 2 Yellow
+15 Blue, 10 Green, 5 Yellow
+100 Red, 23 Green, 4 Yellow
+50 Red, 15 Blue, 10 Green, 9 Yellow
+20 Red, 12 Green, 5 Yellow, 3 Pink
+20 Green, 8 Yellow, 4 Pink
+8 Yellow Regrowth
+80 Green
+10 Green, 4 Yellow, 5 Yellow Regrowth, 7 Pink
+6 Black
+14 Pink
+8 White
+5 Black, 4 White
+1 Green Camo
+31 Yellow Regrowth
+23 Pink, 4 Zebra
+120 Red, 55 Blue, 45 Green, 45 Yellow
+4 Lead
+25 Yellow, 12 Pink Regrowth
+9 Lead
+8 Zebra, 2 Zebra Regrowth
+25 Black, 28 White, 8 Lead
+20 Yellow Camo
+140 Yellow, 5 Zebra
+35 Pink, 25 White, 5 Rainbow
+81 Pink
+20 Black, 20 White, 7 White Camo, 15 Lead, 10 Zebra
+42 Pink Regrowth, 17 White, 14 Lead, 10 Zebra, 4 Rainbow
+10 Black, 10 White, 20 Lead, 20 Zebra, 18 Rainbow
+10 Rainbow, 4 Ceramic
+60 Black, 60 Zebra
+6 Rainbow Camo, 6 Rainbow Regrowth
+10 Rainbow, 7 Ceramic
+50 Zebra
+200 Pink, 8 Lead, 25 Rainbow
+1 M.O.A.B
+70 Pink Camo, 12 Ceramic
+120 Pink Regrowth, 50 Rainbow
+343 Green, 20 Zebra, 20 Rainbow, 10 Rainbow Regrowth, 18 Ceramic
+20 Red, 8 Lead, 20 Ceramic, 2 M.O.A.B
+10 Rainbow Regrowth, 28 Ceramic
+25 Rainbow, 10 Ceramic, 2 M.O.A.B
+80 Pink Camo, 3 M.O.A.B
+35 Ceramic, 2 M.O.A.B
+45 Ceramic, 1 M.O.A.B
+40 Rainbow Regrowth, 1 M.O.A.B
+40 Rainbow, 4 M.O.A.B
+29 Ceramic, 5 M.O.A.B
+28 Lead Camo, 50 Ceramic
+1 B.F.B
+150 Zebra Regrowth, 5 M.O.A.B
+300 Pink Camo, 15 Rainbow Camo Regrowth, 6 M.O.A.B
+75 Lead, 122 Ceramic
+9 M.O.A.B
+100 Zebra, 70 Rainbow, 50 Ceramic, 3 M.O.A.B, 2 B.F.B
+12 M.O.A.B
+15 Ceramic, 10 M.O.A.B
+4 M.O.A.B, 1 B.F.B
+60 Lead, 70 Ceramic Regrowth
+200 Rainbow Camo, 4 M.O.A.B
+30 Ceramic, 10 M.O.A.B
+38 Ceramic Regrowth, 2 B.F.B
+9 M.O.A.B, 2 B.F.B
+200 Ceramic, 1 B.F.B
+28 Lead, 4 M.O.A.B, 3 B.F.B
+60 Ceramic Regrowth
+14 M.O.A.B, 5 B.F.B
+150 Rainbow, 75 Ceramic, 72 Ceramic Camo, 1 B.F.B
+500 Rainbow Regrowth, 7 B.F.B
+31 M.O.A.B
+9 B.F.B
+400 Rainbow Camo Regrowth, 10 B.F.B
+150 Ceramic, 30 M.O.A.B
+50 M.O.A.B, 10 B.F.B
+1 Z.O.M.G

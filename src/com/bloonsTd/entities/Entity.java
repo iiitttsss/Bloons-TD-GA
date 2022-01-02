@@ -10,7 +10,7 @@ public abstract class Entity
 	// which balloon is it (will determine its stats)
 	private int type;
 
-	private int id; // each ballons have a unique number (used by the bullets so they will not hit
+	private int id; // each balloons have a unique number (used by the bullets so they will not hit
 	// the balloon more than once)
 
 	public Entity()

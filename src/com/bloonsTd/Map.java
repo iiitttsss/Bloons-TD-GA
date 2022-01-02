@@ -1,6 +1,6 @@
-/**
- * 13-12-2021
- * handle the game map / the simulation object (running the game)
+/*
+  13-12-2021
+  handle the game map / the simulation object (running the game)
  */
 package com.bloonsTd;
 
@@ -42,19 +42,8 @@ public class Map
 
 		TowersTypesDictionary.initTypeDict();
 		this.setTowers(new TowersManager());
-//		for (int x = 0; x < 1200; x += 50)
-//		{
-//
-//			TowerPlacer.placeTower(this.getPath(), this.getTowers(), x, 500, TowersTypesDictionary.DART_MONKEY);
-//			TowerPlacer.placeTower(this.getPath(), this.getTowers(), x, 700, TowersTypesDictionary.DART_MONKEY);
-//		}
 
 		this.setBullets(new BulletsManager());
-
-//		for (int i = 0; i < 100; i++)
-//		{
-//			this.getBullets().addBullet(500, 500, (float) Math.random() * 2 - 1, (float) Math.random() * 2 - 1);
-//		}
 
 		this.setBalloonsSpawner(new BalloonsSpawner());
 	}
