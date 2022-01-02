@@ -4,14 +4,12 @@
  */
 package com.bloonsTd;
 
-import java.util.ArrayList;
-
 import com.Main;
 import com.bloonsTd.entities.balloons.BalloonsManager;
 import com.bloonsTd.entities.balloons.BalloonsTypesDictionary;
 import com.bloonsTd.entities.bullets.BulletsManager;
-import com.bloonsTd.entities.towers.Tower;
 import com.bloonsTd.entities.towers.TowerPlacer;
+import com.bloonsTd.entities.towers.TowersManager;
 import com.bloonsTd.entities.towers.TowersTypesDictionary;
 import com.bloonsTd.path.Path;
 import com.bloonsTd.rounds.BalloonsSpawner;
@@ -25,7 +23,7 @@ public class Map
 	private BalloonsManager balloons;
 	private BalloonsSpawner balloonsSpawner;
 
-	private ArrayList<Tower> towers;
+	private TowersManager towers;
 
 	private BulletsManager bullets;
 
@@ -43,7 +41,7 @@ public class Map
 		this.setBalloons(new BalloonsManager());
 
 		TowersTypesDictionary.initTypeDict();
-		this.setTowers(new ArrayList<Tower>());
+		this.setTowers(new TowersManager());
 //		for (int x = 0; x < 1200; x += 50)
 //		{
 //
@@ -66,6 +64,10 @@ public class Map
 		this.setLives(200);
 		this.getBalloons().init();
 		TowerPlacer.placeTower(this.getPath(), this.getTowers(), 500, 500, TowersTypesDictionary.DART_MONKEY);
+		TowerPlacer.placeTower(this.getPath(), this.getTowers(), 800, 900, TowersTypesDictionary.DART_MONKEY);
+		TowerPlacer.placeTower(this.getPath(), this.getTowers(), 750, 575, TowersTypesDictionary.DART_MONKEY);
+		TowerPlacer.placeTower(this.getPath(), this.getTowers(), 500, 250, TowersTypesDictionary.DART_MONKEY);
+
 		this.getBullets().init();
 		this.getBalloonsSpawner().init();
 	}
@@ -87,14 +89,6 @@ public class Map
 		return this.getLives() <= 0;
 	}
 
-	private void updateTowers()
-	{
-		for (Tower tower : this.getTowers())
-		{
-			tower.update(this.getDeltaTime(), this.getBullets(), this.getBalloons());
-		}
-	}
-
 	/**
 	 * happan before update
 	 */
@@ -102,6 +96,7 @@ public class Map
 	{
 		this.getBalloons().updateActiveEntities();
 		this.getBullets().updateActiveEntities();
+		this.getTowers().updateActiveEntities();
 	}
 
 	/**
@@ -113,7 +108,7 @@ public class Map
 		// build towers
 		// add money
 		this.getBalloons().moveBalloons(this.getDeltaTime(), this.getPath().getSegmentData());
-		this.updateTowers();
+		this.getTowers().update(this.getDeltaTime(), this.getBullets(), this.getBalloons());
 		this.getBullets().update(this.getDeltaTime(), this.getBalloons());
 		this.lives -= this.getBalloons().checkForPasses(this.getPath().getSegmentData());
 	}
@@ -128,12 +123,12 @@ public class Map
 		this.balloons = balloons;
 	}
 
-	public ArrayList<Tower> getTowers()
+	public TowersManager getTowers()
 	{
 		return towers;
 	}
 
-	public void setTowers(ArrayList<Tower> towers)
+	public void setTowers(TowersManager towers)
 	{
 		this.towers = towers;
 	}

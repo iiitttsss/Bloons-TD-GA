@@ -45,6 +45,7 @@ public class MapRenderer
 
 		md.text("# of balloons: " + this.getMapReference().getBalloons().getEntities().size(), 1100, 15);
 		md.text("# of bullets: " + this.getMapReference().getBullets().getEntities().size(), 1100, 30);
+		md.text("# of towers: " + this.getMapReference().getTowers().getEntities().size(), 1100, 45);
 
 		md.endDraw();
 	}
@@ -65,8 +66,10 @@ public class MapRenderer
 	private void renderTowers(PGraphics md)
 	{
 		md.pushStyle();
-		for (Tower tower : this.getMapReference().getTowers())
+		for (Entity entity : this.getMapReference().getTowers().getActiveEntities())
 		{
+			Tower tower = (Tower) entity;
+
 			md.fill(TowersTypesDictionary.typeDict.get(tower.getType()).getColor());
 			float radius = TowersTypesDictionary.typeDict.get(tower.getType()).getRadius();
 			md.circle(tower.getxPos(), tower.getyPos(), 2 * radius);

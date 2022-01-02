@@ -9,15 +9,9 @@ import com.bloonsTd.entities.bullets.BulletsManager;
 import com.bloonsTd.towers.smartRange.SegmentPercent;
 import com.util.MathUtils;
 
-public class Tower
+public class Tower extends Entity
 {
-	// the size of the tower is determined by the tower type
-	private float xPos;
-	private float yPos;
-
 	private float coolDownRemained;
-
-	private int type;
 
 	// smart range - what part of each segment is within the range
 
@@ -30,14 +24,16 @@ public class Tower
 
 	private Balloon lastTarget;
 
-	public Tower(float xPos, float yPos, int type, int[][] pathPoints)
+	public Tower()
 	{
-		this.setxPos(xPos);
-		this.setyPos(yPos);
-		this.setType(type);
-		this.createSegmentsPercents(pathPoints);
 
-		// this.setSegmentsPercents(this.createSegmentsPercents());
+	}
+
+	public void init(int type, float xPos, float yPos, int[][] pathPoints)
+	{
+		super.init(type, xPos, yPos);
+		this.createSegmentsPercents(pathPoints);
+		this.setLastTarget(null);
 	}
 
 	/**
@@ -46,7 +42,12 @@ public class Tower
 	 */
 	public float getRadius()
 	{
-		return TowersTypesDictionary.typeDict.get(this.getType()).getRadius();
+		return Tower.calculateRadiusBasedOnType(this.getType());
+	}
+
+	public static float calculateRadiusBasedOnType(int towerType)
+	{
+		return TowersTypesDictionary.typeDict.get(towerType).getRadius();
 	}
 
 	/**
@@ -318,36 +319,6 @@ public class Tower
 		returnArrays[1] = end;
 		return returnArrays;
 
-	}
-
-	public float getxPos()
-	{
-		return xPos;
-	}
-
-	public void setxPos(float xPos)
-	{
-		this.xPos = xPos;
-	}
-
-	public float getyPos()
-	{
-		return yPos;
-	}
-
-	public void setyPos(float yPos)
-	{
-		this.yPos = yPos;
-	}
-
-	public int getType()
-	{
-		return type;
-	}
-
-	public void setType(int type)
-	{
-		this.type = type;
 	}
 
 	public ArrayList<SegmentPercent> getSegmentsPercents()
