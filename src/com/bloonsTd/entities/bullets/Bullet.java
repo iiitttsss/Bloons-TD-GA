@@ -15,21 +15,22 @@ public class Bullet extends Entity
 	private int pierceRemained;
 	private float lifeTimeRemained;
 
-	private ArrayList<Integer> balloonsClearList;// list of ballons IDs that the bullet cannot hit
+	private ArrayList<Integer> balloonsClearList;// list of balloons IDs that the bullet cannot hit
 
 	public Bullet()
 	{
 		super();
-		this.setBalloonsClearList(new ArrayList<Integer>());
+		// 		this.setBalloonsClearList(new ArrayList<Integer>());
+		this.setBalloonsClearList(new ArrayList<>());
 	}
 
 	/**
-	 * initilizing the bullet
+	 * initializing the bullet
 	 * 
-	 * @param xPos
-	 * @param yPos
-	 * @param xVel
-	 * @param yVel
+	 * @param xPos - start x position
+	 * @param yPos - start y position
+	 * @param xVel - start x velocity
+	 * @param yVel - start y velocity
 	 */
 	public void init(int type, float xPos, float yPos, float xVel, float yVel, float lifeTime)
 	{
@@ -80,7 +81,7 @@ public class Bullet extends Entity
 	/**
 	 * checking if thr bullet is touching a balloon
 	 * 
-	 * @param allBalloons - an array-list of all the balloons
+	 * @param balloonsManager - an array-list of all the balloons
 	 */
 	private void collisionWithBalloons(BalloonsManager balloonsManager)
 	{
@@ -115,13 +116,13 @@ public class Bullet extends Entity
 	 */
 	public float getRadius()
 	{
-		// return 5 until implemnted properly
+		// return 5 until implemented properly
 		// should return the radius from a dictionary based on the bullet type
 		return 5;
 	}
 
 	/**
-	 * handling movment
+	 * handling movement
 	 */
 	private void move()
 	{
