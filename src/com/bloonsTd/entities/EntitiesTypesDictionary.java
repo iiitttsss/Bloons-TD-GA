@@ -9,28 +9,37 @@ import java.util.ArrayList;
 public abstract class EntitiesTypesDictionary
 {
 
-    private static ArrayList<EntityType> typeDict = new ArrayList<EntityType>();
+    private ArrayList<EntityType> typeDict = new ArrayList<EntityType>();
 
-    public static ArrayList<String[]> loadCSV(String fileName)
+    public abstract EntityType createNewEntity(String[] values);
+
+    public EntitiesTypesDictionary(String fileName)
     {
-        ArrayList<String[]> data = new ArrayList<String[]>();
-        try {
+        this.loadCSV(fileName);
+    }
+
+    private void loadCSV(String fileName)
+    {
+        try
+        {
             File file = new File(fileName);
             BufferedReader br = new BufferedReader(new FileReader(file));
             String line;
             int i = 0;
-            while ((line = br.readLine()) != null) {
+            while ((line = br.readLine()) != null)
+            {
                 String[] values = line.split(",");
-                if (i != 0) {
-                    data.add(values);
+                if (i != 0)
+                {
+                    this.getTypeDict().add(this.createNewEntity(values));
                 }
                 i++;
             }
             br.close();
-        } catch (IOException e) {
+        } catch (IOException e)
+        {
             System.out.println("BalloonsTypesDictionary loading problem");
         }
-        return data;
     }
 
     public ArrayList<EntityType> getTypeDict()

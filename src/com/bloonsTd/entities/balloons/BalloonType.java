@@ -1,8 +1,9 @@
 package com.bloonsTd.entities.balloons;
 
 import com.Global;
+import com.bloonsTd.entities.EntityType;
 
-public class BalloonType
+public class BalloonType extends EntityType
 {
 	// speed
 	private float speed;
@@ -13,12 +14,12 @@ public class BalloonType
 
 	private float strength;
 
-	public BalloonType(float speed, int colorR, int colorG, int colorB, float radius, float strength)
+	public BalloonType(String[] values)
 	{
-		this.speed = speed;
-		this.color = Global.getPro().color(colorR, colorG, colorB);
-		this.setRadius(radius);
-		this.setStrength(strength);
+		this.speed = Float.parseFloat(values[1]);
+		this.color = Global.getPro().color(Integer.parseInt(values[2]), Integer.parseInt(values[3]), Integer.parseInt(values[4]));
+		this.setRadius(Float.parseFloat(values[5]));
+		this.setStrength(Float.parseFloat(values[6]));
 	}
 
 	public float getSpeed()
