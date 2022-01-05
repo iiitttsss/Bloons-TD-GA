@@ -13,7 +13,7 @@ public class Main extends PApplet
 	private Map map;
 	private MapRenderer mapRenderer;
 
-	public static int setFrameRate = 60;
+	public static int setFrameRate = 30;
 	// used for deltaTime calculations
 	private int lastTime = 0;
 

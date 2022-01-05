@@ -22,7 +22,6 @@ public class Map
 
 	private BalloonsManager balloons;
 	private BalloonsSpawner balloonsSpawner;
-	private BalloonsTypesDictionary balloonsTypesDictionary;
 
 	private TowersManager towers;
 
