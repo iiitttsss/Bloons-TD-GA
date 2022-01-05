@@ -14,7 +14,7 @@ public class Balloon extends Entity
     private static BalloonsTypesDictionary balloonsTypesDictionaryReference;
 
     // to make the tracking the position of the balloon easier,
-    // the balloon will know on what segement it is on
+    // the balloon will know on what segment it is on
     // and where on that segment
     private int segmentNumber;
     private float percentOfSegment;
@@ -25,14 +25,14 @@ public class Balloon extends Entity
     }
 
     /**
-     * because balloons do not get deleted but didabled, there is no need to
-     * conctract them each time, so the method initlizing them instead
+     * because balloons do not get deleted but disabled, there is no need to
+     * construct them each time, so the method initializing them instead
      *
-     * @param type
-     * @param initXPos
-     * @param initYPos
-     * @param segmentNumber
-     * @param percentOfSegment
+     * @param type - the type of the new balloon
+     * @param initXPos - the start x position of the new balloon
+     * @param initYPos - the start y position of the new balloon
+     * @param segmentNumber - the start segment number of the new balloon
+     * @param percentOfSegment - the start percent of segment of the new balloon
      */
     public void init(int type, float initXPos, float initYPos, int segmentNumber, float percentOfSegment)
     {
