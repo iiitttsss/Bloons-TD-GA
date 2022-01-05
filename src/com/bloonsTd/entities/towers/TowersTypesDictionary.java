@@ -5,7 +5,7 @@ import java.util.HashMap;
 public class TowersTypesDictionary
 {
 
-	public static HashMap<Integer, TowerType> typeDict = new HashMap<Integer, TowerType>();
+	public static HashMap<Integer, TowerType> typeDict = new HashMap<>();
 
 	public static final int DART_MONKEY = 1;
 

@@ -26,6 +26,7 @@ public class Main extends PApplet
 	@Override
 	public void setup()
 	{
+		// this is a comment
 		System.out.println("start program");
 		Global.setPro(this);
 		this.frameRate(setFrameRate);
