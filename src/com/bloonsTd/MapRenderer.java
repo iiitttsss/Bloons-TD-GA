@@ -34,7 +34,7 @@ public class MapRenderer
 		// md.background(150);
 		this.renderBackground(md);
 		this.renderPaths(md);
-		this.renderBloons(md);
+		this.renderBalloons(md);
 		this.renderTowers(md);
 		this.renderBullets(md);
 
@@ -110,7 +110,7 @@ public class MapRenderer
 
 	}
 
-	private void renderBloons(PGraphics md)
+	private void renderBalloons(PGraphics md)
 	{
 		md.push();
 		for (Entity entity : this.getMapReference().getBalloons().getActiveEntities())
@@ -118,7 +118,7 @@ public class MapRenderer
 			Balloon balloon = (Balloon) entity;
 			if (balloon.isActive())
 			{
-				md.fill(BalloonsTypesDictionary.typeDict.get(balloon.getType()).getColor());
+				md.fill(Balloon.getBalloonsTypesDictionaryReference().getTypeDict().get(balloon.getType()).getColor());
 				md.circle(balloon.getxPos(), balloon.getyPos(), balloon.getRadius() * 2);
 			}
 		}

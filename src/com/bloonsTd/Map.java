@@ -37,7 +37,6 @@ public class Map
 		this.setPath(new Path(graphicsSize, pathPoints));
 
 		// balloons
-		BalloonsTypesDictionary.initTypeDict();
 		this.setBalloons(new BalloonsManager());
 
 		TowersTypesDictionary.initTypeDict();
