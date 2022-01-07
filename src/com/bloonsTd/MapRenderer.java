@@ -3,6 +3,7 @@ package com.bloonsTd;
 import com.Global;
 import com.bloonsTd.entities.Entity;
 import com.bloonsTd.entities.balloons.Balloon;
+import com.bloonsTd.entities.balloons.BalloonType;
 import com.bloonsTd.entities.balloons.BalloonsTypesDictionary;
 import com.bloonsTd.entities.bullets.Bullet;
 import com.bloonsTd.entities.towers.Tower;
@@ -118,7 +119,7 @@ public class MapRenderer
 			Balloon balloon = (Balloon) entity;
 			if (balloon.isActive())
 			{
-				md.fill(Balloon.getBalloonsTypesDictionaryReference().getTypeDict().get(balloon.getType()).getColor());
+				md.fill(((BalloonType)Balloon.getBalloonsTypesDictionaryReference().getTypeDict().get(balloon.getType())).getColor());
 				md.circle(balloon.getxPos(), balloon.getyPos(), balloon.getRadius() * 2);
 			}
 		}

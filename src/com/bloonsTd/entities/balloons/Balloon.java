@@ -134,12 +134,12 @@ public class Balloon extends Entity
      */
     public float getStrength()
     {
-        return Balloon.getBalloonsTypesDictionaryReference().getTypeDict().get(this.getType()).getStrength();
+        return ((BalloonType)Balloon.getBalloonsTypesDictionaryReference().getTypeDict().get(this.getType())).getStrength();
     }
 
     public float getSpeed()
     {
-        return BALLOONS_SPEED_MULTIPLIER * Balloon.getBalloonsTypesDictionaryReference().getTypeDict().get(this.getType()).getSpeed();
+        return BALLOONS_SPEED_MULTIPLIER * ((BalloonType)Balloon.getBalloonsTypesDictionaryReference().getTypeDict().get(this.getType())).getSpeed();
     }
 
     /**
@@ -147,7 +147,7 @@ public class Balloon extends Entity
      */
     public float getRadius()
     {
-        return BALLOONS_RADIUS_MULTIPLIER * Balloon.getBalloonsTypesDictionaryReference().getTypeDict().get(this.getType()).getRadius();
+        return BALLOONS_RADIUS_MULTIPLIER * ((BalloonType)Balloon.getBalloonsTypesDictionaryReference().getTypeDict().get(this.getType())).getRadius();
     }
 
     public int getSegmentNumber()

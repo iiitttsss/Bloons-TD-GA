@@ -1,9 +1,6 @@
 package com.bloonsTd.entities.balloons;
 
 import com.bloonsTd.entities.EntitiesTypesDictionary;
-import com.bloonsTd.entities.EntityType;
-
-import java.util.HashMap;
 
 public class BalloonsTypesDictionary extends EntitiesTypesDictionary
 {
@@ -26,7 +23,8 @@ public class BalloonsTypesDictionary extends EntitiesTypesDictionary
 
     public BalloonsTypesDictionary()
     {
-        super("com/data/entities types/balloon types.csv");
+
+        super("Bloons-TD-GA/src/com/data/entities-types/balloon-types.csv");
         //																		spd    R    G    B    rad   str
 //        this.getTypeDict().put(RED_BALLOON, new BalloonType(1.00f, 240, 030, 040, 025, 1));
 //        this.getTypeDict().put(BLUE_BALLOON, new BalloonType(1.40f, 040, 150, 220, 030, 2));
