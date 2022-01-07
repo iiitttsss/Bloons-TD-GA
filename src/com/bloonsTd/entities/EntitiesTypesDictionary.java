@@ -5,14 +5,18 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public abstract class EntitiesTypesDictionary
 {
 
-    private ArrayList<EntityType> typeDict = new ArrayList<EntityType>();
+    private ArrayList<EntityType> typeDict;
+
+
 
     public EntitiesTypesDictionary(String fileName)
     {
+        this.setTypeDict(new ArrayList<>());
         this.loadCSV(fileName);
     }
 
@@ -30,7 +34,7 @@ public abstract class EntitiesTypesDictionary
         {
             System.out.println("BalloonsTypesDictionary loading problem: could not load file");
             System.out.println("file name: " + fileName);
-            System.out.println(e);
+            // System.out.println(e);
             return;
         }
 
@@ -65,7 +69,6 @@ public abstract class EntitiesTypesDictionary
         {
             System.out.println("BalloonsTypesDictionary loading problem: could not close file");
             System.out.println("file name: " + fileName);
-            return;
         }
 
     }

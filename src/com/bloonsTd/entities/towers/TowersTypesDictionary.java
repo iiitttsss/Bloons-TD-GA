@@ -1,17 +1,20 @@
 package com.bloonsTd.entities.towers;
 
-import java.util.HashMap;
+import com.bloonsTd.entities.EntitiesTypesDictionary;
+import com.bloonsTd.entities.EntityType;
 
-public class TowersTypesDictionary
+public class TowersTypesDictionary extends EntitiesTypesDictionary
 {
+	public static final int DART_MONKEY = 0;
 
-	public static HashMap<Integer, TowerType> typeDict = new HashMap<>();
-
-	public static final int DART_MONKEY = 1;
-
-	public static void initTypeDict()
+	public TowersTypesDictionary()
 	{
-		TowersTypesDictionary.typeDict.put(DART_MONKEY, new TowerType(240, 30, 40, 40));
+		super("Bloons-TD-GA/src/com/data/entities-types/tower-types.csv");
+	}
 
+	@Override
+	public EntityType createNewEntity(String[] values)
+	{
+		return new TowerType(values);
 	}
 }

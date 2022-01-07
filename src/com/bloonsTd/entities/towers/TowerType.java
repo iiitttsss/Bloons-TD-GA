@@ -1,17 +1,18 @@
 package com.bloonsTd.entities.towers;
 
 import com.Global;
+import com.bloonsTd.entities.EntityType;
 
-public class TowerType
+public class TowerType extends EntityType
 {
 	private int color;
 
 	private float radius;
 
-	public TowerType(int colorR, int colorG, int colorB, float radius)
+	public TowerType(String[] values)
 	{
-		this.color = Global.getPro().color(colorR, colorG, colorB);
-		this.setRadius(radius);
+		this.color = Global.getPro().color(Integer.parseInt(values[1]), Integer.parseInt(values[2]), Integer.parseInt(values[3]));
+		this.setRadius(Float.parseFloat(values[4]));
 	}
 
 	public int getColor()

@@ -19,7 +19,7 @@ public class TowerPlacer
 	 */
 	public static boolean placeTower(Path path, TowersManager towers, int x, int y, int towerType)
 	{
-		float towerRadius = Tower.calculateRadiusBasedOnType(towerType);
+		float towerRadius = Tower.getRadius(towerType);
 		if (!TowerPlacer.doesTowerIntersectThePath(x, y, towerRadius, path))
 		{
 			if (!TowerPlacer.doesTowerIntersectOtherTowers(towers, x, y, towerRadius))

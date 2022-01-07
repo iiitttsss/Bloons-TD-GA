@@ -71,9 +71,8 @@ public class MapRenderer
 		{
 			Tower tower = (Tower) entity;
 
-			md.fill(TowersTypesDictionary.typeDict.get(tower.getType()).getColor());
-			float radius = TowersTypesDictionary.typeDict.get(tower.getType()).getRadius();
-			md.circle(tower.getxPos(), tower.getyPos(), 2 * radius);
+			md.fill(tower.getColor());
+			md.circle(tower.getxPos(), tower.getyPos(), 2 * tower.getRadius());
 			md.noFill();
 			md.circle(tower.getxPos(), tower.getyPos(), 2 * tower.getRange());
 
@@ -119,7 +118,7 @@ public class MapRenderer
 			Balloon balloon = (Balloon) entity;
 			if (balloon.isActive())
 			{
-				md.fill(((BalloonType)Balloon.getBalloonsTypesDictionaryReference().getTypeDict().get(balloon.getType())).getColor());
+				md.fill(balloon.getColor());
 				md.circle(balloon.getxPos(), balloon.getyPos(), balloon.getRadius() * 2);
 			}
 		}

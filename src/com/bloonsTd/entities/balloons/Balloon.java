@@ -11,7 +11,6 @@ public class Balloon extends Entity
     public static final float BALLOONS_SPEED_MULTIPLIER = 0.05f;
     public static final float BALLOONS_RADIUS_MULTIPLIER = 0.7f;
 
-    private static BalloonsTypesDictionary balloonsTypesDictionaryReference;
 
     // to make the tracking the position of the balloon easier,
     // the balloon will know on what segment it is on
@@ -19,19 +18,18 @@ public class Balloon extends Entity
     private int segmentNumber;
     private float percentOfSegment;
 
-    public Balloon(BalloonsTypesDictionary balloonsTypesDictionaryReference)
+    public Balloon()
     {
-        Balloon.setBalloonsTypesDictionaryReference(balloonsTypesDictionaryReference);
     }
 
     /**
      * because balloons do not get deleted but disabled, there is no need to
      * construct them each time, so the method initializing them instead
      *
-     * @param type - the type of the new balloon
-     * @param initXPos - the start x position of the new balloon
-     * @param initYPos - the start y position of the new balloon
-     * @param segmentNumber - the start segment number of the new balloon
+     * @param type             - the type of the new balloon
+     * @param initXPos         - the start x position of the new balloon
+     * @param initYPos         - the start y position of the new balloon
+     * @param segmentNumber    - the start segment number of the new balloon
      * @param percentOfSegment - the start percent of segment of the new balloon
      */
     public void init(int type, float initXPos, float initYPos, int segmentNumber, float percentOfSegment)
@@ -49,8 +47,7 @@ public class Balloon extends Entity
      */
     public void hit(Bullet bullet, BalloonsManager balloonsManager, ArrayList<Integer> bulletClearList)
     {
-        switch (this.getType())
-        {
+        switch (this.getType()) {
             case BalloonsTypesDictionary.RED_BALLOON:
                 this.setActive(false);
                 break;
@@ -88,24 +85,21 @@ public class Balloon extends Entity
                 break;
             case BalloonsTypesDictionary.MOAB_BALLOON:
                 this.setType(BalloonsTypesDictionary.CERAMIC_BALLOON);
-                for (int i = 0; i < 3; i++)
-                {
+                for (int i = 0; i < 3; i++) {
                     bulletClearList.add(balloonsManager.addBalloon(BalloonsTypesDictionary.CERAMIC_BALLOON, this.getxPos(),
                             this.getyPos(), segmentNumber, percentOfSegment).getId());
                 }
                 break;
             case BalloonsTypesDictionary.BFB_BALLOON:
                 this.setType(BalloonsTypesDictionary.MOAB_BALLOON);
-                for (int i = 0; i < 3; i++)
-                {
+                for (int i = 0; i < 3; i++) {
                     bulletClearList.add(balloonsManager.addBalloon(BalloonsTypesDictionary.MOAB_BALLOON, this.getxPos(),
                             this.getyPos(), segmentNumber, percentOfSegment).getId());
                 }
                 break;
             case BalloonsTypesDictionary.ZOMG_BALLOON:
                 this.setType(BalloonsTypesDictionary.BFB_BALLOON);
-                for (int i = 0; i < 3; i++)
-                {
+                for (int i = 0; i < 3; i++) {
                     bulletClearList.add(balloonsManager.addBalloon(BalloonsTypesDictionary.BFB_BALLOON, this.getxPos(),
                             this.getyPos(), segmentNumber, percentOfSegment).getId());
                 }
@@ -113,33 +107,19 @@ public class Balloon extends Entity
         }
     }
 
-    public static BalloonsTypesDictionary getBalloonsTypesDictionaryReference()
-    {
-        return balloonsTypesDictionaryReference;
-    }
 
-    public static void setBalloonsTypesDictionaryReference(BalloonsTypesDictionary balloonsTypesDictionaryReference)
-    {
-        //System.out.println("try new reference");
-        // in order to create the reference only once:
-        if(Balloon.getBalloonsTypesDictionaryReference() == null)
-        {
-            Balloon.balloonsTypesDictionaryReference = balloonsTypesDictionaryReference;
-            //System.out.println("new reference");
-        }
-    }
 
     /**
      * @return - how strong this balloon is
      */
     public float getStrength()
     {
-        return ((BalloonType)Balloon.getBalloonsTypesDictionaryReference().getTypeDict().get(this.getType())).getStrength();
+        return ((BalloonType) BalloonsManager.getBalloonsTypesDictionaryReference().getTypeDict().get(this.getType())).getStrength();
     }
 
     public float getSpeed()
     {
-        return BALLOONS_SPEED_MULTIPLIER * ((BalloonType)Balloon.getBalloonsTypesDictionaryReference().getTypeDict().get(this.getType())).getSpeed();
+        return BALLOONS_SPEED_MULTIPLIER * ((BalloonType) BalloonsManager.getBalloonsTypesDictionaryReference().getTypeDict().get(this.getType())).getSpeed();
     }
 
     /**
@@ -147,7 +127,13 @@ public class Balloon extends Entity
      */
     public float getRadius()
     {
-        return BALLOONS_RADIUS_MULTIPLIER * ((BalloonType)Balloon.getBalloonsTypesDictionaryReference().getTypeDict().get(this.getType())).getRadius();
+        return BALLOONS_RADIUS_MULTIPLIER * ((BalloonType) BalloonsManager.getBalloonsTypesDictionaryReference().getTypeDict().get(this.getType())).getRadius();
+    }
+
+    public int getColor()
+    {
+        return ((BalloonType) BalloonsManager.getBalloonsTypesDictionaryReference().getTypeDict().get(this.getType())).getColor();
+
     }
 
     public int getSegmentNumber()

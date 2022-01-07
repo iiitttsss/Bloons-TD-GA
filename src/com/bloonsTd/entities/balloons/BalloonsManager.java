@@ -3,30 +3,37 @@ package com.bloonsTd.entities.balloons;
 import com.bloonsTd.entities.EntitiesManager;
 import com.bloonsTd.entities.Entity;
 
-public class BalloonsManager extends EntitiesManager {
-    private BalloonsTypesDictionary typeDict;
+public class BalloonsManager extends EntitiesManager
+{
 
-    public BalloonsManager() {
+    private static BalloonsTypesDictionary balloonsTypesDictionaryReference;
+
+    public BalloonsManager()
+    {
         super();
         this.setTypeDict(new BalloonsTypesDictionary());
+        BalloonsManager.setBalloonsTypesDictionaryReference((BalloonsTypesDictionary) this.getTypeDict());
+
     }
 
     @Override
-    public Balloon createNewEntity() {
-        return new Balloon(this.getTypeDict());
+    public Balloon createNewEntity()
+    {
+        return new Balloon();
     }
 
     /**
      * adding new balloon to the balloonsManager
      *
-     * @param type
-     * @param initXPos
-     * @param initYPos
-     * @param segmentNumber
-     * @param segmentPercent
+     * @param type             - the type of the new balloon
+     * @param initXPos         - the x position of the new balloon
+     * @param initYPos         - the y position of the new balloon
+     * @param segmentNumber    - the number of the segment the new balloons is on
+     * @param percentOfSegment - the percent of the segment the balloon is on
      * @return - the new balloon object
      */
-    public Balloon addBalloon(int type, float initXPos, float initYPos, int segmentNumber, float percentOfSegment) {
+    public Balloon addBalloon(int type, float initXPos, float initYPos, int segmentNumber, float percentOfSegment)
+    {
         Balloon balloon = (Balloon) super.addEntity();
         balloon.init(type, initXPos, initYPos, segmentNumber, percentOfSegment);
 
@@ -37,10 +44,11 @@ public class BalloonsManager extends EntitiesManager {
      * checking if a balloon passed all the path and returning how much lives are
      * lost
      *
-     * @param allSegmentData
+     * @param allSegmentData - pre calculated data on all the segments
      * @return - the number of lives lost
      */
-    public float checkForPasses(float[][] allSegmentData) {
+    public float checkForPasses(float[][] allSegmentData)
+    {
         float passes = 0;
         for (Entity entity : this.getActiveEntities()) {
             Balloon balloon = (Balloon) entity;
@@ -54,19 +62,22 @@ public class BalloonsManager extends EntitiesManager {
     }
 
     /**
-     * @param balloon - the balloon
+     * @param balloon        - the balloon
+     * @param allSegmentData - pre calculated data on all the segments
      * @return - return true if the balloons did not finish the course
      */
-    private boolean isBalloonOnPath(Balloon balloon, float[][] allSegmentData) {
+    private boolean isBalloonOnPath(Balloon balloon, float[][] allSegmentData)
+    {
         return balloon.getSegmentNumber() < allSegmentData.length;
     }
 
     /**
-     * handeling the movement of all the balloons
+     * handling the movement of all the balloons
      *
-     * @param allSegmentData
+     * @param allSegmentData - pre calculated data on all the segments
      */
-    public void moveBalloons(float deltaTime, float[][] allSegmentData) {
+    public void moveBalloons(float deltaTime, float[][] allSegmentData)
+    {
         for (Entity entity : this.getActiveEntities()) {
             Balloon balloon = (Balloon) entity;
 
@@ -100,12 +111,19 @@ public class BalloonsManager extends EntitiesManager {
         }
     }
 
-    public BalloonsTypesDictionary getTypeDict() {
-        return typeDict;
+    public static BalloonsTypesDictionary getBalloonsTypesDictionaryReference()
+    {
+        return balloonsTypesDictionaryReference;
     }
 
-    public void setTypeDict(BalloonsTypesDictionary typeDict) {
-        this.typeDict = typeDict;
+    public static void setBalloonsTypesDictionaryReference(BalloonsTypesDictionary balloonsTypesDictionaryReference)
+    {
+        //System.out.println("try new reference");
+        // in order to create the reference only once:
+        if (BalloonsManager.getBalloonsTypesDictionaryReference() == null) {
+            BalloonsManager.balloonsTypesDictionaryReference = balloonsTypesDictionaryReference;
+            //System.out.println("new reference");
+        }
     }
 
 }

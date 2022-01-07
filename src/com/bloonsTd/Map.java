@@ -39,7 +39,6 @@ public class Map
 		// balloons
 		this.setBalloons(new BalloonsManager());
 
-		TowersTypesDictionary.initTypeDict();
 		this.setTowers(new TowersManager());
 
 		this.setBullets(new BulletsManager());
