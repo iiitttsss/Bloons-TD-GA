@@ -4,6 +4,7 @@ import com.bloonsTd.entities.Entity;
 import com.bloonsTd.entities.balloons.Balloon;
 import com.bloonsTd.entities.balloons.BalloonsManager;
 import com.bloonsTd.entities.bullets.BulletsManager;
+import com.bloonsTd.entities.bullets.BulletsTypesDictionary;
 import com.bloonsTd.towers.smartRange.SegmentPercent;
 import com.util.MathUtils;
 
@@ -53,10 +54,7 @@ public class Tower extends Entity
         float dx = (targetBalloon.getxPos() - this.getxPos());
         float dy = (targetBalloon.getyPos() - this.getyPos());
         float magnitude = MathUtils.distance(0, 0, dx, dy);
-        float speed = this.getBulletSpeed();
-
-        // TODO: -1 is temporay, need to be the bullet type
-        bulletsManager.addBullet(-1, this.getxPos(), this.getyPos(), dx * speed / magnitude, dy * speed / magnitude,
+        bulletsManager.addBullet(BulletsTypesDictionary.DEFAULT, this.getxPos(), this.getyPos(), dx / magnitude, dy / magnitude,
                 this.getBulletLifeTime());
 
         this.setCoolDownRemained(this.getTowerCoolDown());
@@ -278,12 +276,6 @@ public class Tower extends Entity
     {
         // should return based on tower type (from a dictionary)
         return 1000;
-    }
-
-    private float getBulletSpeed()
-    {
-        // should return based on tower type (from a dictionary)
-        return 20;
     }
 
     /**

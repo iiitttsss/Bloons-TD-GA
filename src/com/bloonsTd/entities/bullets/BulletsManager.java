@@ -4,13 +4,27 @@ package com.bloonsTd.entities.bullets;
 import com.bloonsTd.entities.EntitiesManager;
 import com.bloonsTd.entities.Entity;
 import com.bloonsTd.entities.balloons.BalloonsManager;
+import com.bloonsTd.entities.balloons.BalloonsTypesDictionary;
 
 public class BulletsManager extends EntitiesManager
 {
+	public static BulletsTypesDictionary getBulletsTypesDictionaryReference()
+	{
+		return bulletsTypesDictionaryReference;
+	}
+
+	public static void setBulletsTypesDictionaryReference(BulletsTypesDictionary bulletsTypesDictionaryReference)
+	{
+		BulletsManager.bulletsTypesDictionaryReference = bulletsTypesDictionaryReference;
+	}
+
+	private static BulletsTypesDictionary bulletsTypesDictionaryReference;
 
 	public BulletsManager()
 	{
 		super();
+		this.setTypeDict(new BulletsTypesDictionary());
+		BulletsManager.setBulletsTypesDictionaryReference((BulletsTypesDictionary) this.getTypeDict());
 	}
 
 	@Override

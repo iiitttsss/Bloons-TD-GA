@@ -58,6 +58,7 @@ public class MapRenderer
 		{
 			Bullet bullet = (Bullet) entity;
 
+			md.fill(bullet.getColor());
 			md.circle(bullet.getxPos(), bullet.getyPos(), bullet.getRadius() * 2);
 
 		}

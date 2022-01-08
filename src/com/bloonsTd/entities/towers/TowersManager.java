@@ -25,7 +25,6 @@ public class TowersManager extends EntitiesManager
 		super();
 		this.setTypeDict(new TowersTypesDictionary());
         TowersManager.setTowersTypesDictionaryReference((TowersTypesDictionary) this.getTypeDict());
-
     }
 
     @Override

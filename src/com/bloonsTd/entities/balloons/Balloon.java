@@ -20,6 +20,7 @@ public class Balloon extends Entity
 
     public Balloon()
     {
+        super();
     }
 
     /**
