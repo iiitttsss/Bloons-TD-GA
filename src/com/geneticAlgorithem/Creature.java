@@ -1,5 +1,7 @@
 package com.geneticAlgorithem;
 
+import com.bloonsTd.Map;
+
 public class Creature
 {
 	private Genome genome;
@@ -28,7 +30,7 @@ public class Creature
 
 		s += "score: " + this.getScore() + "\n";
 
-		s += this.genome.toString();
+		//s += this.genome.toString();
 
 		return s;
 	}
@@ -43,11 +45,11 @@ public class Creature
 		this.genome.initRandomGenome();
 	}
 
-	public void evaluate()
+	public void evaluate(Map map)
 	{
 		// TODO
 		// this.setScore((float) Math.random());
-		this.setScore(this.genome.evaluate());
+		this.setScore(this.genome.evaluate(map));
 	}
 
 	public void mutate()

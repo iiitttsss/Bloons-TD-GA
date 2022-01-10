@@ -50,13 +50,15 @@ public class Map
 	{
 		this.setLives(200);
 		this.getBalloons().init();
-		TowerPlacer.placeTower(this.getPath(), this.getTowers(), 500, 500, TowersTypesDictionary.DART_MONKEY);
-		TowerPlacer.placeTower(this.getPath(), this.getTowers(), 800, 900, TowersTypesDictionary.DART_MONKEY);
-		TowerPlacer.placeTower(this.getPath(), this.getTowers(), 750, 575, TowersTypesDictionary.DART_MONKEY);
-		TowerPlacer.placeTower(this.getPath(), this.getTowers(), 500, 250, TowersTypesDictionary.DART_MONKEY);
+//		TowerPlacer.placeTower(this.getPath(), this.getTowers(), 500, 500, TowersTypesDictionary.DART_MONKEY);
+//		TowerPlacer.placeTower(this.getPath(), this.getTowers(), 800, 900, TowersTypesDictionary.DART_MONKEY);
+//		TowerPlacer.placeTower(this.getPath(), this.getTowers(), 750, 575, TowersTypesDictionary.DART_MONKEY);
+//		TowerPlacer.placeTower(this.getPath(), this.getTowers(), 500, 250, TowersTypesDictionary.DART_MONKEY);
 
 		this.getBullets().init();
 		this.getBalloonsSpawner().init();
+
+		this.getTowers().init();
 	}
 
 	/**

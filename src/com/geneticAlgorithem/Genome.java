@@ -1,8 +1,12 @@
 package com.geneticAlgorithem;
 
+import com.bloonsTd.Map;
+import com.bloonsTd.entities.towers.TowerPlacer;
+import com.bloonsTd.entities.towers.TowersTypesDictionary;
+
 public class Genome
 {
-	public static final int TOWER_BUILD_LIST_SIZE = 10;
+	public static final int TOWER_BUILD_LIST_SIZE = 3;
 	public static final int ACTIONS_LIST_SIZE = 80;
 	public static final int EXECUTE_ORDER_LIST_SIZE = TOWER_BUILD_LIST_SIZE + ACTIONS_LIST_SIZE;
 
@@ -13,7 +17,7 @@ public class Genome
 	// TODO - move these constants to the bloons TD package
 	public final int numberOfPossibleTowers = 3;
 	public final int numberOfPossibleActions = 7;
-	public final int maxPosition = 100;
+	public final int maxPosition = 1200;
 
 
 	public Genome()
@@ -23,12 +27,23 @@ public class Genome
 		this.setExecuteOrderList(new int[EXECUTE_ORDER_LIST_SIZE]);
 	}
 
-	public float evaluate()
+	/**
+	 *
+	 * @return - returning how much update did the creature survive
+	 */
+	public float evaluate(Map map)
 	{
-		float score = 0;
-		for (int v : this.executeOrderList)
+		int score = 0;
+		map.init();
+		for(int[] towerPlace : this.getTowerBuildList())
 		{
-			score += v;
+			TowerPlacer.placeTower(map.getPath(), map.getTowers(), towerPlace[0], towerPlace[1], TowersTypesDictionary.DART_MONKEY);
+		}
+		while (!map.isGameOver())
+		{
+			map.preUpdate();
+			map.update();
+			score++;
 		}
 		return score;
 	}
@@ -118,8 +133,8 @@ public class Genome
 	{
 		for (int i = 0; i < towerBuildList.length; i++)
 		{
-			towerBuildList[i][0] = (int) (Math.random() * (this.maxPosition + 1)); // 0-100
-			towerBuildList[i][1] = (int) (Math.random() * (this.maxPosition + 1)); // 0-100
+			towerBuildList[i][0] = (int) (Math.random() * (this.maxPosition)); // 0-100
+			towerBuildList[i][1] = (int) (Math.random() * (this.maxPosition)); // 0-100
 			towerBuildList[i][2] = (int) (Math.random() * numberOfPossibleTowers);
 		}
 
@@ -143,7 +158,7 @@ public class Genome
 	public void mutate()
 	{
 		// TODO
-		final float mutationRate = 0.001f;
+		final float mutationRate = 0.01f;
 		for (int i = 0; i < Genome.TOWER_BUILD_LIST_SIZE; i++)
 		{
 			int[] towerBuildOrder = this.towerBuildList[i];
@@ -156,10 +171,10 @@ public class Genome
 					switch (j)
 					{
 					case 0:
-						numberOfOptions = (this.maxPosition + 1);
+						numberOfOptions = (this.maxPosition);
 						break;
 					case 1:
-						numberOfOptions = (this.maxPosition + 1);
+						numberOfOptions = (this.maxPosition);
 						break;
 					case 2:
 						numberOfOptions = numberOfPossibleTowers;

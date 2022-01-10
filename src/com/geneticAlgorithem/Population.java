@@ -1,5 +1,7 @@
 package com.geneticAlgorithem;
 
+import com.bloonsTd.Map;
+
 import java.util.Arrays;
 import java.util.Comparator;
 
@@ -10,15 +12,10 @@ public class Population
 
 	private int generation;
 
-	public static final int POPULATION_SIZE = 100;// the size of the total population
-	public static final int KEEP_N_TOP_CREATURES = 10; // the n creatures with the highest score will stay
+	public static final int POPULATION_SIZE = 20;// the size of the total population
+	public static final int KEEP_N_TOP_CREATURES = 4; // the n creatures with the highest score will stay
 												// in the population
 
-	/**
-	 * 
-	 * @param POPULATION_SIZE    -
-	 * @param KEEP_N_TOP_CREATURES -
-	 */
 	public Population()
 	{
 		this.setCreaturesN(new Creature[2][Population.POPULATION_SIZE]);
@@ -56,14 +53,14 @@ public class Population
 		return s;
 	}
 
-	private void evaluateAllCreatures()
+	private void evaluateAllCreatures(Map map)
 	{
 		for (int i = 0; i < this.getCreatures().length; i++)
 		{
 			Creature creature = this.creaturesN[this.usingCreatureNumber][i];
 			if (!creature.isEvaluated())
 			{
-				creature.evaluate();
+				creature.evaluate(map);
 			}
 		}
 	}
@@ -71,7 +68,7 @@ public class Population
 	private void reproduce()
 	{
 		Arrays.sort(this.creaturesN[this.usingCreatureNumber], Comparator.comparing(Creature::getScore));
-		this.getChildren()[0].twoParentsReproduce(this.getCreatures()[1], this.getCreatures()[2]);
+		//this.getChildren()[0].twoParentsReproduce(this.getCreatures()[1], this.getCreatures()[2]);
 
 		// copy best parents (mark them to not evaluate) - copy at the end of the array
 		for (int i = 0; i < Population.KEEP_N_TOP_CREATURES; i++)
@@ -123,9 +120,9 @@ public class Population
 		return (this.usingCreatureNumber + 1) % this.creaturesN.length;
 	}
 
-	public void advanceGeneration()
+	public void advanceGeneration(Map map)
 	{
-		this.evaluateAllCreatures();
+		this.evaluateAllCreatures(map);
 		this.reproduce();
 		this.mutate();
 		this.generation++;
