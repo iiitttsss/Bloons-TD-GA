@@ -2,12 +2,13 @@ package com;
 
 import com.bloonsTd.Map;
 import com.bloonsTd.MapRenderer;
+import com.geneticAlgorithem.Creature;
 import com.geneticAlgorithem.Population;
 import processing.core.PApplet;
 
 public class GeneticAlgorithmRunner extends PApplet
 {
-    public static int setFrameRate = 10;
+    public static int setFrameRate = 30;
     private Population population;
     private Map map;
     private MapRenderer mapRenderer;
@@ -52,6 +53,14 @@ public class GeneticAlgorithmRunner extends PApplet
         lastTime = currentTime;
 
         this.getPopulation().advanceGeneration(this.getMap());
+
+        this.getPopulation().getCreatures()[this.getPopulation().POPULATION_SIZE -1].evaluate(this.getMap());
+        System.out.println(this.getPopulation().getCreatures()[this.getPopulation().POPULATION_SIZE -1].getScore() + "\n");
+
+        for(Creature c :  this.getPopulation().getCreatures())
+        {
+            System.out.println(c.getScore());
+        }
         this.render();
         //System.out.println(this.getPopulation());
     }

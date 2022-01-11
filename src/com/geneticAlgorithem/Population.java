@@ -12,8 +12,8 @@ public class Population
 
 	private int generation;
 
-	public static final int POPULATION_SIZE = 20;// the size of the total population
-	public static final int KEEP_N_TOP_CREATURES = 4; // the n creatures with the highest score will stay
+	public static final int POPULATION_SIZE = 10;// the size of the total population
+	public static final int KEEP_N_TOP_CREATURES = 5; // the n creatures with the highest score will stay
 												// in the population
 
 	public Population()
@@ -67,7 +67,11 @@ public class Population
 
 	private void reproduce()
 	{
-		Arrays.sort(this.creaturesN[this.usingCreatureNumber], Comparator.comparing(Creature::getScore));
+		Arrays.sort(this.getCreatures(), Comparator.comparing(Creature::getScore));
+//		for(Creature c : this.getCreatures())
+//		{
+//			System.out.println(c.getScore());
+//		}
 		//this.getChildren()[0].twoParentsReproduce(this.getCreatures()[1], this.getCreatures()[2]);
 
 		// copy best parents (mark them to not evaluate) - copy at the end of the array
@@ -130,7 +134,7 @@ public class Population
 
 		System.out.println("lowest score in the population is: " + this.getCreatures()[0].getScore());
 		System.out.println("highest score in the population is: " + this.getCreatures()[POPULATION_SIZE - 1].getScore());
-		// System.out.println(this);
+		//System.out.println(this);
 		System.out.println("\n");
 	}
 

@@ -80,20 +80,20 @@ public class Genome
 		{
 			s += "(" + towerBuild[0] + ", " + towerBuild[1] + ", " + towerBuild[2] + "), ";
 		}
-		s += "\n";
-		s += "actionsList\n";
-		for (int[] actions : actionsList)
-		{
-			s += "(" + actions[0] + ", " + actions[1] + "), ";
-		}
-		s += "\n";
-		s += "executeOrder\n";
-		for (int executeOrder : executeOrderList)
-		{
-			s += executeOrder;
-		}
-		s += " :" + executeOrderList.length;
-		s += "\n";
+//		s += "\n";
+//		s += "actionsList\n";
+//		for (int[] actions : actionsList)
+//		{
+//			s += "(" + actions[0] + ", " + actions[1] + "), ";
+//		}
+//		s += "\n";
+//		s += "executeOrder\n";
+//		for (int executeOrder : executeOrderList)
+//		{
+//			s += executeOrder;
+//		}
+//		s += " :" + executeOrderList.length;
+//		s += "\n";
 
 		return s;
 	}
@@ -171,8 +171,6 @@ public class Genome
 					switch (j)
 					{
 					case 0:
-						numberOfOptions = (this.maxPosition);
-						break;
 					case 1:
 						numberOfOptions = (this.maxPosition);
 						break;
@@ -181,6 +179,7 @@ public class Genome
 						break;
 					}
 					towerBuildList[i][j] = (int) (Math.random() * numberOfOptions);
+					//System.out.println("-------------------------------------------------mutation");
 				}
 			}
 		}

@@ -43,6 +43,8 @@ public class MapRenderer
 		md.text(Global.getPro().mouseX, 30, 30);
 		md.text(Global.getPro().mouseY, 30, 45);
 		md.text("lives: " + this.getMapReference().getLives(), 30, 60);
+		md.text("updates: " + this.getMapReference().getNumberOfUpdates(), 30, 75);
+
 
 		md.text("# of balloons: " + this.getMapReference().getBalloons().getEntities().size(), 1100, 15);
 		md.text("# of bullets: " + this.getMapReference().getBullets().getEntities().size(), 1100, 30);

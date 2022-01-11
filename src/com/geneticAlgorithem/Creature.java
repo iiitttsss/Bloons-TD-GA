@@ -15,7 +15,7 @@ public class Creature
 
 	/**
 	 * 
-	 * @param other - copying all the data of thhe other creature to this one
+	 * @param other - copying all the data of the other creature to this one
 	 */
 	public void copyFrom(Creature other)
 	{
@@ -30,7 +30,7 @@ public class Creature
 
 		s += "score: " + this.getScore() + "\n";
 
-		//s += this.genome.toString();
+		s += this.genome.toString();
 
 		return s;
 	}
