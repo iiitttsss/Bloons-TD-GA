@@ -16,16 +16,20 @@ public abstract class EntitiesManager
 
     public void init()
     {
-        for (Entity entity : this.getEntities()) {
+        for (Entity entity : this.getEntities())
+        {
             entity.setActive(false);
         }
+        this.updateActiveEntities();
     }
 
     public void updateActiveEntities()
     {
         this.getActiveEntities().clear();
-        for (Entity entity : this.getEntities()) {
-            if (entity.isActive()) {
+        for (Entity entity : this.getEntities())
+        {
+            if (entity.isActive())
+            {
                 this.getActiveEntities().add(entity);
             }
         }
@@ -49,8 +53,10 @@ public abstract class EntitiesManager
         boolean foundEntity = false;
 
         // finding unused bullet
-        for (Entity entity : this.getEntities()) {
-            if (!entity.isActive()) {
+        for (Entity entity : this.getEntities())
+        {
+            if (!entity.isActive())
+            {
                 currentEntity = entity;
                 foundEntity = true;
                 break;
@@ -58,7 +64,8 @@ public abstract class EntitiesManager
         }
 
         // if could not find unused bullet, create a new one
-        if (!foundEntity) {
+        if (!foundEntity)
+        {
             currentEntity = this.createNewEntity();
             currentEntity.setId(this.getEntities().size());
             this.getEntities().add(currentEntity);

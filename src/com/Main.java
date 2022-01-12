@@ -2,6 +2,8 @@ package com;
 
 import com.bloonsTd.Map;
 import com.bloonsTd.MapRenderer;
+import com.bloonsTd.entities.towers.TowerPlacer;
+import com.bloonsTd.entities.towers.TowersTypesDictionary;
 import com.geneticAlgorithem.Population;
 
 import processing.core.PApplet;
@@ -38,12 +40,11 @@ public class Main extends PApplet
 		this.setMap(new Map(screenSize));
 		this.getMap().init();
 		this.setMapRenderer(new MapRenderer(screenSize, this.getMap()));
-		
-//		for (int i = 0; i < 200; i++)
-//		{
-//			this.population.advanceGeneration();
-//		}
-//		this.getMap().renderMapToBuffer();
+		TowerPlacer.placeTower(map.getPath(), map.getTowers(), 220, 200, TowersTypesDictionary.DART_MONKEY);
+		TowerPlacer.placeTower(map.getPath(), map.getTowers(), 320, 200, TowersTypesDictionary.DART_MONKEY);
+		TowerPlacer.placeTower(map.getPath(), map.getTowers(), 320, 220, TowersTypesDictionary.DART_MONKEY);//this tower could not be placed
+
+
 	}
 
 

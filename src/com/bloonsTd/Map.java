@@ -44,9 +44,17 @@ public class Map
         this.setBalloonsSpawner(new BalloonsSpawner());
     }
 
+    public String toString()
+    {
+        String s = "Map: \n";
+        s += "lives: " + lives + "\n";
+        s += this.getBalloons().toString();
+        return s;
+    }
+
     public void init()
     {
-        this.setLives(200);
+        this.setLives(10);
         this.getBalloons().init();
         this.getTowers().init();
 
@@ -73,6 +81,14 @@ public class Map
      */
     public void preUpdate()
     {
+        this.updateActiveEntities();
+    }
+
+    /**
+     * checking what entities are active
+     */
+    private void updateActiveEntities()
+    {
         this.getBalloons().updateActiveEntities();
         this.getBullets().updateActiveEntities();
         this.getTowers().updateActiveEntities();
@@ -83,7 +99,7 @@ public class Map
      */
     public void update()
     {
-        this.getBalloonsSpawner().spawnBalloons(deltaTime, this.getBalloons());
+        this.getBalloonsSpawner().spawnBalloons(this.getDeltaTime(), this.getBalloons());
         // build towers
         // add money
         this.getBalloons().moveBalloons(this.getDeltaTime(), this.getPath().getSegmentData());

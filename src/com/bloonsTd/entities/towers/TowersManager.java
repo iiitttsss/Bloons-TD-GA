@@ -45,6 +45,7 @@ public class TowersManager extends EntitiesManager
     {
         Tower tower = (Tower) super.addEntity();
         tower.init(type, xPos, yPos, pathPoints);
+        this.updateActiveEntities();
 
         return tower;
     }

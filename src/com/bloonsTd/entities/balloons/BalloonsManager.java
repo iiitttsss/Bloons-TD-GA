@@ -16,6 +16,18 @@ public class BalloonsManager extends EntitiesManager
 
     }
 
+    public String toString()
+    {
+        String s = "";
+        for(Entity entity : this.getActiveEntities())
+        {
+            Balloon balloon = (Balloon)entity;
+            s += balloon.toString();
+            s += " | ";
+        }
+        return s;
+    }
+
     @Override
     public Balloon createNewEntity()
     {
@@ -47,14 +59,14 @@ public class BalloonsManager extends EntitiesManager
      * @param allSegmentData - pre calculated data on all the segments
      * @return - the number of lives lost
      */
-    public float checkForPasses(float[][] allSegmentData)
+    public int checkForPasses(float[][] allSegmentData)
     {
-        float passes = 0;
+        int passes = 0;
         for (Entity entity : this.getActiveEntities()) {
             Balloon balloon = (Balloon) entity;
 
             if (!this.isBalloonOnPath(balloon, allSegmentData)) {
-                passes += balloon.getStrength();
+                passes += Math.round(balloon.getStrength());
                 balloon.setActive(false);
             }
         }

@@ -6,7 +6,7 @@ import com.bloonsTd.entities.towers.TowersTypesDictionary;
 
 public class Genome
 {
-	public static final int TOWER_BUILD_LIST_SIZE = 3;
+	public static final int TOWER_BUILD_LIST_SIZE = 5;
 	public static final int ACTIONS_LIST_SIZE = 80;
 	public static final int EXECUTE_ORDER_LIST_SIZE = TOWER_BUILD_LIST_SIZE + ACTIONS_LIST_SIZE;
 
@@ -158,7 +158,7 @@ public class Genome
 	public void mutate()
 	{
 		// TODO
-		final float mutationRate = 0.01f;
+		final float mutationRate = 0.1f;
 		for (int i = 0; i < Genome.TOWER_BUILD_LIST_SIZE; i++)
 		{
 			int[] towerBuildOrder = this.towerBuildList[i];

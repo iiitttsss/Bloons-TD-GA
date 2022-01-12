@@ -5,6 +5,7 @@ import com.bloonsTd.entities.balloons.Balloon;
 import com.bloonsTd.entities.balloons.BalloonsManager;
 import com.bloonsTd.entities.bullets.BulletsManager;
 import com.bloonsTd.entities.bullets.BulletsTypesDictionary;
+import com.bloonsTd.path.Path;
 import com.bloonsTd.towers.smartRange.SegmentPercent;
 import com.util.MathUtils;
 

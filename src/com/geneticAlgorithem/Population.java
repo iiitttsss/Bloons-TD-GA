@@ -12,7 +12,7 @@ public class Population
 
 	private int generation;
 
-	public static final int POPULATION_SIZE = 10;// the size of the total population
+	public static final int POPULATION_SIZE = 100;// the size of the total population
 	public static final int KEEP_N_TOP_CREATURES = 5; // the n creatures with the highest score will stay
 												// in the population
 
@@ -134,7 +134,11 @@ public class Population
 
 		System.out.println("lowest score in the population is: " + this.getCreatures()[0].getScore());
 		System.out.println("highest score in the population is: " + this.getCreatures()[POPULATION_SIZE - 1].getScore());
-		//System.out.println(this);
+//		for(Creature c : this.getCreatures())
+//		{
+//			System.out.println(c.getScore() + " | " + c.isEvaluated());
+//		}
+//		System.out.println(this);
 		System.out.println("\n");
 	}
 

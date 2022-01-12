@@ -41,6 +41,15 @@ public class Balloon extends Entity
         this.setPercentOfSegment(percentOfSegment);
     }
 
+    public String toString()
+    {
+        String s = "";
+        s += this.getSegmentNumber();
+        s += ", ";
+        s += this.getPercentOfSegment();
+        return s;
+    }
+
     /**
      * called when the balloon is hit by the bullet
      *

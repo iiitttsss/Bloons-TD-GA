@@ -91,14 +91,14 @@ public class MapRenderer
 	{
 		md.background(150);
 
-		// visulazing the distance from the closest path
+//		 visualizing the distance from the closest path
 //		for (int y = 0; y < md.height; y++)
 //		{
 //			for (int x = 0; x < md.width; x++)
 //			{
-//				float value = this.getDistanceFromClosestPath()[y][x];
+//				float value = this.getMapReference().getPath().getDistanceFromClosestPath()[y][x];
 //				int c;
-//				if (value <= 40)
+//				if (value <= 80)
 //				{
 //					c = Global.getPro().color(255);
 //				}

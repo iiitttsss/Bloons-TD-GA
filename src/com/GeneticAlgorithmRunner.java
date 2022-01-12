@@ -2,7 +2,6 @@ package com;
 
 import com.bloonsTd.Map;
 import com.bloonsTd.MapRenderer;
-import com.geneticAlgorithem.Creature;
 import com.geneticAlgorithem.Population;
 import processing.core.PApplet;
 
@@ -54,17 +53,31 @@ public class GeneticAlgorithmRunner extends PApplet
 
         this.getPopulation().advanceGeneration(this.getMap());
 
-        this.getPopulation().getCreatures()[this.getPopulation().POPULATION_SIZE -1].evaluate(this.getMap());
-        System.out.println(this.getPopulation().getCreatures()[this.getPopulation().POPULATION_SIZE -1].getScore() + "\n");
+//        float preScore = this.getPopulation().getCreatures()[this.getPopulation().POPULATION_SIZE - 1].getScore();
+//        System.out.println(preScore);
+//        System.out.println(this.getPopulation().getCreatures()[this.getPopulation().POPULATION_SIZE - 1]);
+//        System.out.println(this.getMap());
 
-        for(Creature c :  this.getPopulation().getCreatures())
-        {
-            System.out.println(c.getScore());
-        }
+        this.getPopulation().getCreatures()[this.getPopulation().POPULATION_SIZE - 1].evaluate(this.getMap());
+
+//        float afterScore = this.getPopulation().getCreatures()[this.getPopulation().POPULATION_SIZE - 1].getScore();
+//        System.out.println(afterScore);
+//        System.out.println(this.getPopulation().getCreatures()[this.getPopulation().POPULATION_SIZE - 1]);
+//        System.out.println(this.getMap());
+//
+//        if (preScore != afterScore)
+//        {
+//            exit();
+//        }
+
+//
+//        for(Creature c :  this.getPopulation().getCreatures())
+//        {
+//            System.out.println(c.getScore());
+//        }
         this.render();
         //System.out.println(this.getPopulation());
     }
-
 
 
     private void render()
