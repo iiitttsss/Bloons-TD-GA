@@ -270,13 +270,13 @@ public class Tower extends Entity
     private float getTowerCoolDown()
     {
         // should return based on tower type (from a dictionary)
-        return 1000;
+        return 5000;
     }
 
     private float getBulletLifeTime()
     {
         // should return based on tower type (from a dictionary)
-        return 1000;
+        return 2000;
     }
 
     /**

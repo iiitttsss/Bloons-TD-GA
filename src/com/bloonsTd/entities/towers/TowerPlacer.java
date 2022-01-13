@@ -22,7 +22,7 @@ public class TowerPlacer
 		float towerRadius = Tower.getRadius(towerType);
 		if (!TowerPlacer.doesTowerIntersectThePath(x, y, towerRadius, path))
 		{
-			if (!TowerPlacer.doesTowerIntersectOtherTowers(towers, x, y, towerRadius))
+			//if (!TowerPlacer.doesTowerIntersectOtherTowers(towers, x, y, towerRadius))
 			{
 				if (TowerPlacer.isTheTowerInsideTheMap(x, y, towerRadius, path))
 				{

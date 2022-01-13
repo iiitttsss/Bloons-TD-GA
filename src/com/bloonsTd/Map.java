@@ -30,7 +30,7 @@ public class Map
     public Map(int[] graphicsSize)
     {
         // path
-        int[][] pathPoints = {{100, 100}, {50, 400}, {800, 300}, {500, 800}, {700, 800}, {700, 1000},
+        int[][] pathPoints = {{100, 100}, {800, 50}, {800, 300}, {500, 800}, {700, 800}, {700, 1000},
                 {900, 1000}, {900, 700}, {100, 550}};
         this.setPath(new Path(graphicsSize, pathPoints));
 
@@ -54,7 +54,7 @@ public class Map
 
     public void init()
     {
-        this.setLives(10);
+        this.setLives(1);
         this.getBalloons().init();
         this.getTowers().init();
 

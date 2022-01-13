@@ -8,8 +8,8 @@ import java.util.ArrayList;
 public class Balloon extends Entity
 {
 
-    public static final float BALLOONS_SPEED_MULTIPLIER = 0.05f;
-    public static final float BALLOONS_RADIUS_MULTIPLIER = 0.7f;
+    public static final float BALLOONS_SPEED_MULTIPLIER = 0.1f;
+    public static final float BALLOONS_RADIUS_MULTIPLIER = 1f;
 
 
     // to make the tracking the position of the balloon easier,
