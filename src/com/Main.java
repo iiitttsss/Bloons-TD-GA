@@ -40,9 +40,9 @@ public class Main extends PApplet
 		this.setMap(new Map(screenSize));
 		this.getMap().init();
 		this.setMapRenderer(new MapRenderer(screenSize, this.getMap()));
-		TowerPlacer.placeTower(map.getPath(), map.getTowers(), 220, 200, TowersTypesDictionary.DART_MONKEY);
-		TowerPlacer.placeTower(map.getPath(), map.getTowers(), 320, 200, TowersTypesDictionary.DART_MONKEY);
-		TowerPlacer.placeTower(map.getPath(), map.getTowers(), 320, 220, TowersTypesDictionary.DART_MONKEY);//this tower could not be placed
+//		TowerPlacer.placeTower(map.getPath(), map.getTowers(), 220, 200, TowersTypesDictionary.DART_MONKEY);
+//		TowerPlacer.placeTower(map.getPath(), map.getTowers(), 320, 200, TowersTypesDictionary.DART_MONKEY);
+//		TowerPlacer.placeTower(map.getPath(), map.getTowers(), 320, 220, TowersTypesDictionary.DART_MONKEY);//this tower could not be placed
 
 
 	}

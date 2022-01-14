@@ -30,8 +30,9 @@ public class Map
     public Map(int[] graphicsSize)
     {
         // path
-        int[][] pathPoints = {{100, 100}, {800, 50}, {800, 300}, {500, 800}, {700, 800}, {700, 1000},
-                {900, 1000}, {900, 700}, {100, 550}};
+//        int[][] pathPoints = {{100, 100}, {800, 50}, {800, 300}, {500, 800}, {700, 800}, {700, 1000},
+//                {900, 1000}, {900, 700}, {100, 550}};
+        int[][] pathPoints = {{600, 100}, {700, 700}, {900, 700}, {800, 800}, {700, 800}, {700, 700}, {900, 700}, {800, 800}, {700, 800}, {700, 700}, {900, 700}, {800, 800}, {700, 800}, {700, 700}, {900, 700}, {800, 800}, {700, 800}, {700, 700}, {900, 700}, {800, 800}, {700, 800}, {700, 700}, {900, 700}, {800, 800}, {700, 800}, {700, 700}, {900, 700}, {800, 800}, {700, 800}, {700, 700}};
         this.setPath(new Path(graphicsSize, pathPoints));
 
         // balloons
@@ -99,7 +100,7 @@ public class Map
      */
     public void update()
     {
-        this.getBalloonsSpawner().spawnBalloons(this.getDeltaTime(), this.getBalloons());
+        this.getBalloonsSpawner().spawnBalloons(this.getDeltaTime(), this.getBalloons(), this.getPath().getPathPoints()[0]);
         // build towers
         // add money
         this.getBalloons().moveBalloons(this.getDeltaTime(), this.getPath().getSegmentData());

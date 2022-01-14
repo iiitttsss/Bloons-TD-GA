@@ -63,6 +63,8 @@ public class GeneticAlgorithmRunner extends PApplet
 
         this.getPopulation().getCreatures()[this.getPopulation().POPULATION_SIZE - 1].evaluate(this.getMap());
         System.out.println("age: " +  this.getPopulation().getCreatures()[this.getPopulation().POPULATION_SIZE - 1].getAge());
+        System.out.println("genome: " +  this.getPopulation().getCreatures()[this.getPopulation().POPULATION_SIZE - 1].getGenome());
+
 
 //        float afterScore = this.getPopulation().getCreatures()[this.getPopulation().POPULATION_SIZE - 1].getScore();
 //        System.out.println(afterScore);

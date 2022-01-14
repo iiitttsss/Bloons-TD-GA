@@ -21,7 +21,6 @@ public class Creature
     {
         this.setScore(other.getScore());
         this.genome.copyFrom(other.getGenome());
-        this.setAge(this.getAge() + 1);
     }
 
     @Override
@@ -51,7 +50,7 @@ public class Creature
     {
         // TODO
         // this.setScore((float) Math.random());
-        this.setScore(this.genome.evaluate(map) - this.getAge() / 1000f);
+        this.setScore(this.genome.evaluate(map));
     }
 
     public void mutate()
@@ -91,6 +90,7 @@ public class Creature
 
     public float getScore()
     {
+        //return score - this.getAge() / 1000f;
         return score;
     }
 

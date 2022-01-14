@@ -27,7 +27,7 @@ public class BalloonsSpawner
 	/**
 	 * spawning new balloons when needed
 	 */
-	public void spawnBalloons(float deltaTime, BalloonsManager balloons)
+	public void spawnBalloons(float deltaTime, BalloonsManager balloons, int[] startPosition)
 	{
 		this.timeSinceLastSpawn -= deltaTime;
 		// if need to spawn balloon
@@ -46,7 +46,7 @@ public class BalloonsSpawner
 							.get(this.getRoundNumber()).getSubRounds().get(this.getSubRoundNumber()).getAmount())
 					{
 						balloons.addBalloon(this.getRoundsData().getRoundsData().get(this.getRoundNumber())
-								.getSubRounds().get(this.getSubRoundNumber()).getType(), 100, 100, 0, 0);
+								.getSubRounds().get(this.getSubRoundNumber()).getType(), startPosition[0], startPosition[1], 0, 0);
 //						System.out.print(this.getRoundNumber() + " | ");
 //						System.out.print(this.getSubRoundNumber() + " | ");
 //						System.out.print(this.getNumberOfBalloonsSpawnInThisSubRound() + " | ");

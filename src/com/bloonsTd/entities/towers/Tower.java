@@ -270,7 +270,7 @@ public class Tower extends Entity
     private float getTowerCoolDown()
     {
         // should return based on tower type (from a dictionary)
-        return 5000;
+        return 3000;
     }
 
     private float getBulletLifeTime()
@@ -285,7 +285,7 @@ public class Tower extends Entity
     public float getRange()
     {
         // TODO Auto-generated method stub
-        return 200;
+        return 100;
     }
 
     public ArrayList<SegmentPercent> getSegmentsPercents()

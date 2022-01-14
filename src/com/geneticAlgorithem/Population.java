@@ -7,8 +7,8 @@ import java.util.Comparator;
 
 public class Population
 {
-    public static final int POPULATION_SIZE = 100;// the size of the total population
-    public static final int KEEP_N_TOP_CREATURES = 5; // the n creatures with the highest score will stay
+    public static final int POPULATION_SIZE = 200;// the size of the total population
+    public static final int KEEP_N_TOP_CREATURES = 10; // the n creatures with the highest score will stay
     private Creature[][] creaturesN;
     private int usingCreatureNumber;
     private int generation;
@@ -31,6 +31,10 @@ public class Population
         int i = 0;
         while (r > 0)
         {
+            if(i== 200)
+            {
+                System.out.println(scoreSum);
+            }
             r -= this.getCreatures()[i].getScore();
             i++;
         }
@@ -59,6 +63,7 @@ public class Population
             {
                 creature.evaluate(map);
             }
+            creature.setAge(creature.getAge() + 1);
         }
     }
 
